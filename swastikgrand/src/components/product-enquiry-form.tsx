@@ -7,13 +7,25 @@ type ProductEnquiryFormProps = { initialMode?: string; industry?: string };
 
 export function ProductEnquiryForm({ initialMode = "Standard", industry = "" }: ProductEnquiryFormProps) {
   const [prepared, setPrepared] = useState(false);
+  const [mode, setMode] = useState(initialMode);
+  const [selectedIndustry, setSelectedIndustry] = useState(() => {
+    if (typeof window === "undefined") return industry;
+    return new URLSearchParams(window.location.search).get("industry") || industry;
+  });
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const subject = encodeURIComponent(`HSS Hand Tap enquiry: ${form.get("enquiryMode")}`);
+    const country = String(form.get("country") || "").trim();
+    if (mode === "Export" && !country) {
+      const countryField = event.currentTarget.elements.namedItem("country");
+      if (countryField instanceof HTMLInputElement) countryField.setCustomValidity("Country is required for export enquiries.");
+      event.currentTarget.reportValidity();
+      return;
+    }
+    const subject = encodeURIComponent(`HSS Hand Tap enquiry: ${mode}`);
     const body = encodeURIComponent([
-      `Product: HSS Threading Hand Tap`, `Enquiry mode: ${form.get("enquiryMode")}`, `Industry/application: ${form.get("industry")}`,
+      `Product: HSS Threading Hand Tap`, `Enquiry mode: ${mode}`, `Industry/application: ${selectedIndustry}`,
       `Name: ${form.get("name")}`, `Company: ${form.get("company")}`, `Email: ${form.get("email")}`, `Phone: ${form.get("phone")}`,
       `Thread size and pitch/TPI: ${form.get("thread")}`, `Quantity: ${form.get("quantity")}`, `Material: ${form.get("material")}`,
       `Country: ${form.get("country")}`, `Requirements: ${form.get("details")}`,
@@ -23,9 +35,9 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "" }: 
   }
 
   return <form className="enquiry-form product-enquiry-form" onSubmit={handleSubmit}>
-    <input type="hidden" name="industry" value={industry} readOnly />
+    <label>Industry / application<input name="industry" value={selectedIndustry} onChange={(event) => setSelectedIndustry(event.target.value)} placeholder="Workshop, automotive, tool room..." /></label>
     <div className="form-grid">
-      <label>Enquiry mode<select name="enquiryMode" defaultValue={initialMode}><option>Standard</option><option>Bulk</option><option>Export</option><option>Custom</option></select></label>
+      <label>Enquiry mode<select name="enquiryMode" value={mode} onChange={(event) => { setMode(event.target.value); const countryField = event.currentTarget.form?.elements.namedItem("country"); if (countryField instanceof HTMLInputElement) countryField.setCustomValidity(""); }}><option>Standard</option><option>Bulk</option><option>Export</option><option>Custom</option></select></label>
       <label>Full name<input name="name" required placeholder="Your name" /></label>
       <label>Company<input name="company" placeholder="Company name" /></label>
       <label>Email<input name="email" required type="email" placeholder="you@company.com" /></label>

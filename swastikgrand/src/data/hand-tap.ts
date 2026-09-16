@@ -35,6 +35,7 @@ export const handTapIndustries = [
   ["Pumps, valves and fittings", "Mounting holes and threaded ports where parallel, taper and sealing requirements are confirmed."],
   ["Agricultural machinery", "Brackets, replacement components and machinery fixtures selected for the access and repair condition."],
   ["Maintenance and repair", "Replacement-part preparation and damaged-thread assessment. An insert may be needed where material is missing."],
+  ["Aircraft, aerospace and space", "Drawing-led fixtures and qualified manufacturing-process enquiries. No blanket aerospace approval is claimed."],
 ];
 
 export const handTapFaqs = [
