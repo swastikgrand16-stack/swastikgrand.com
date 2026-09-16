@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { company } from "@/data/site";
+import { productMenu } from "@/data/menu";
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -8,7 +9,7 @@ function Arrow() {
 export function SiteHeader() {
   return <>
     <div className="utility"><div className="shell utility-inner"><span>Precision cutting tools. Made in India.</span><span><a href={company.phoneHref}>{company.phone}</a><i /> <a href={`mailto:${company.email}`}>{company.email}</a></span></div></div>
-    <header className="site-header"><div className="shell nav"><Link className="logo" href="/" aria-label="Swastik Grand Industries home"><span className="logo-mark">SG</span><strong className="logo-name">Swastik Grand Industries</strong></Link><nav><Link href="/products/hss-hand-taps">Products</Link><Link href="/industrial-solutions">Industrial Solutions</Link><Link href="/custom-taps">Custom Taps</Link><Link href="/about">About Us</Link><Link href="/contact">Contact</Link></nav><Link className="button button-small" href="/get-a-quote">Get a quote <Arrow /></Link></div></header>
+    <header className="site-header"><div className="shell nav"><Link className="logo" href="/" aria-label="Swastik Grand Industries home"><span className="logo-mark">SG</span><strong className="logo-name">Swastik Grand Industries</strong></Link><nav><details className="products-nav"><summary>Products</summary><div className="products-menu"><Link className="products-menu-all" href="/products">All product categories <Arrow /></Link>{productMenu.map((category) => <div className="products-menu-group" key={category.label}><Link href={category.href}>{category.label}</Link>{category.children?.map((item) => <Link className="products-menu-child" href={item.href} key={item.label}>{item.label}</Link>)}</div>)}</div></details><Link href="/industrial-solutions">Industrial Solutions</Link><Link href="/custom-taps">Custom Taps</Link><Link href="/about">About Us</Link><Link href="/contact">Contact</Link></nav><Link className="menu-button" href="/products">Products</Link><Link className="button button-small" href="/get-a-quote">Get a quote <Arrow /></Link></div></header>
   </>;
 }
 
