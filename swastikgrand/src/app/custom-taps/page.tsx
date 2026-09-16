@@ -1,0 +1,12 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { CustomTapShowcase } from "@/components/custom-tap-showcase";
+import { SiteShell } from "@/components/site-shell";
+
+export const metadata: Metadata = { title: "Custom Taps | Swastik Grand Industries", description: "Discuss custom tap manufacturing for special thread sizes, extended lengths and drawing-based requirements." };
+
+const specifications = ["Special thread sizes and pitches", "Long shank and extended-length requirements", "Material grade and coating options", "Right-hand and left-hand threads", "Drawing or sample-based tooling", "Repeat production requirements"];
+
+export default function CustomTapsPage() {
+  return <SiteShell><main id="top" className="inner-page custom-page"><section className="custom-hero"><div className="shell custom-hero-grid"><div><p className="eyebrow">Custom tap manufacturing</p><h1>Your drawing.<br /><em>Our expertise.</em><br />A tool that fits.</h1><p>When standard taps do not meet your requirements, share your drawing, sample details or thread specification with Swastik Grand Industries.</p><Link className="button button-yellow" href="/get-a-quote">Discuss your custom tap <span aria-hidden="true">↗</span></Link></div><div className="custom-spec-panel"><p className="detail-title">Built around your requirement</p><div className="spec-list">{specifications.map((specification) => <span key={specification}>{specification}</span>)}</div><p className="drawing-note">Have a drawing or sample?<br /><a href="mailto:info@swastikgrand.com">Email it to info@swastikgrand.com <span aria-hidden="true">↗</span></a></p></div></div></section><CustomTapShowcase /><section className="section custom-process"><div className="shell"><div className="section-heading"><div><p className="eyebrow">A clear path to the right tool</p><h2>From requirement<br /><em>to production.</em></h2></div><p>Share the details you have. We&apos;ll use the application context to discuss the right geometry, material and finish for your use.</p></div><div className="custom-process-grid"><article><span>01</span><h3>Share the requirement</h3><p>Send a drawing, sample, thread size, pitch or application detail.</p></article><article><span>02</span><h3>Review the solution</h3><p>Discuss tool geometry, shank length, material, coating and quantity.</p></article><article><span>03</span><h3>Make with confidence</h3><p>Move forward with a tool shaped around the work it needs to do.</p></article></div></div></section></main></SiteShell>;
+}
