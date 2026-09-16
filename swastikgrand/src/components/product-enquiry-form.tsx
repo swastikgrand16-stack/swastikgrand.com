@@ -39,7 +39,7 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "" }: 
     <div className="form-grid">
       <label>Enquiry mode<select name="enquiryMode" value={mode} onChange={(event) => { setMode(event.target.value); const countryField = event.currentTarget.form?.elements.namedItem("country"); if (countryField instanceof HTMLInputElement) countryField.setCustomValidity(""); }}><option>Standard</option><option>Bulk</option><option>Export</option><option>Custom</option></select></label>
       <label>Full name<input name="name" required placeholder="Your name" /></label>
-      <label>Company<input name="company" placeholder="Company name" /></label>
+      <label>Company<input name="company" required={mode !== "Standard"} placeholder="Company name" /></label>
       <label>Email<input name="email" required type="email" placeholder="you@company.com" /></label>
       <label>Phone / WhatsApp<input name="phone" required type="tel" placeholder="+91 ..." /></label>
       <label>Thread size and pitch / TPI<input name="thread" required placeholder="M10 x 1.5 or 1/4-20 UNC" /></label>
