@@ -59,3 +59,34 @@ export const handTapFaqs = [
   ["Can export buyers enquire?", "Yes. Include destination, documents, quantities and delivery requirements."],
   ["Are these automatically aerospace-approved?", "No blanket approval is claimed. Specific qualification, traceability and inspection requirements must be reviewed."],
 ];
+
+export const handTapSetGallery = [
+  { src: "/images/products/hss-hand-tap-set.jpg", alt: "SWAGIN HSS hand tap set with three pieces", label: "Three-piece HSS hand tap set", width: 1600, height: 1600 },
+];
+
+export const handTapSetSpecs = [
+  ["Product", "HSS Hand Tap Set - 3 Pieces"],
+  ["Set contents", "Taper tap, plug / intermediate tap and bottoming tap"],
+  ["Brand", "SWAGIN"],
+  ["Manufacturer", "Swastik Grand Industries"],
+  ["Material grades", "M2 (HSS), M35 (HSS-E), M42 (HSS-ECO)"],
+  ["Hardness", "62-64 HRC"],
+  ["Listed size range", "6 mm to 100 mm"],
+  ["Finish", "Ground thread"],
+  ["Standards listed", "IS 6175 Part 2: 1992, IS 6175 Part 4: 1991 and BS 949 Part 2: 1979"],
+  ["Thread forms", "60 degrees and 55 degrees"],
+  ["Tolerance options", "6H, 6G, 7H, Z-3, Z-4 or required gauge"],
+  ["Flutes", "Straight flutes; 4-flute or 6-flute options"],
+  ["Lead / chamfer", "2-thread, 4-thread or 6-thread lead"],
+  ["Country of origin", "India"],
+];
+
+export const handTapSetFaqs = [
+  ["What is included in the HSS hand tap set?", "Each set includes a taper tap, plug or intermediate tap and bottoming tap."],
+  ["What details are needed for a quote?", "Share thread size and pitch, quantity, material, tolerance, hole type, depth and any special requirement."],
+  ["Which material grades are listed?", "The source product page lists M2, M35 and M42 options. Confirm the selected grade for the application."],
+  ["Can the set be used for volume nut production?", "Not automatically. A dedicated nut tap or machine tap may be more suitable for repeated production."],
+  ["Do you accept bulk and export enquiries?", "Yes. Include size-wise quantities, destination, documents and delivery requirements."],
+  ["What are the price, MOQ and lead time?", "These are confirmed in a current quotation for the selected configuration."],
+  ["Can you review custom sizes or lengths?", "Yes. Submit a drawing or clear specification for feasibility and quotation."],
+];

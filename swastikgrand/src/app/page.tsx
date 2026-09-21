@@ -1,9 +1,30 @@
 import Image from "next/image";
+import Link from "next/link";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { HeroBannerRotator } from "@/components/hero-banner-rotator";
 import { categories, company, solutions } from "@/data/site";
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
+
+const productHrefs: Record<string, string> = {
+  "HSS Hand Tap": "/products/hss-threading-taps/hss-hand-taps",
+  "HSS Hand Tap Set": "/products/hss-threading-taps/hss-hand-tap-sets",
+  "HSS Machine Tap": "/products/hss-threading-taps/hss-machine-taps",
+  "HSS Nut Tap": "/products/hss-threading-taps/hss-nut-taps",
+  "HSS SPPT Tap": "/products/hss-threading-taps/hss-spiral-point-taps",
+  "HSS Acme Tap": "/products/hss-threading-taps/hss-acme-thread-taps",
+  "HSS Cutter": "/get-a-quote?product=HSS%20Cutter",
+  "HSS Reamers": "/products/hss-reamers",
+  "Circular Thread Roll": "/products/threading-dies-rolls/circular-thread-rolling-dies",
+  "HSS Round Tool Bit": "/products/hss-tool-bits/hss-round-tool-bits",
+  "HSS Square Tool Bit": "/products/hss-tool-bits/hss-square-tool-bits",
+  "HSS Gear Hob Cutter": "/products/milling-gear-cutters/hss-gear-hob-cutters",
+  "HSS Thread Forming Roll Tap": "/products/hss-threading-taps/hss-thread-forming-taps",
+  "HSS Round Thread Cutting Die": "/products/threading-dies-rolls/hss-round-thread-cutting-dies",
+  "HSS Short Nut Tap": "/products/hss-threading-taps/hss-short-nut-taps",
+  "HSS End Mill Cutter": "/products/milling-gear-cutters/hss-end-mill-cutters",
+  "HSS Heli Coil Tap": "/products/hss-threading-taps/hss-helicoil-sti-taps",
+};
 
 export default function Home() {
   return (
@@ -50,7 +71,7 @@ export default function Home() {
         </div>
         <div className="shell benefits"><span><b>01</b> Quality you can rely on</span><span><b>02</b> Built for longer service</span><span><b>03</b> Made for your application</span><span><b>04</b> Direct from the manufacturer</span></div>
       </section>
-      <section className="section products" id="products"><div className="shell"><div className="section-heading"><div><p className="eyebrow">The SWAGIN range</p><h2>The right tool.<br /><em>For every next step.</em></h2></div><p>Explore cutting and threading tools for workshop use, industrial production and specialised applications.</p></div><div className="category-grid">{categories.map((category) => <a className="category-card" href={category.title === "HSS Hand Tap" ? "/products/hss-hand-taps" : "#enquiry"} key={category.title}><div className="category-image"><Image src={category.image} alt={category.title} fill sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, (max-width: 1304px) 30vw, 397px" /><span>{category.number}</span></div><div className="category-copy"><h3>{category.title}</h3><p>{category.description}</p><span className="card-arrow"><Arrow /></span></div></a>)}</div><a className="under-link" href="https://swastikgrand.com/our-products/">View full product catalogue <Arrow /></a></div></section>
+      <section className="section products" id="products"><div className="shell"><div className="section-heading"><div><p className="eyebrow">The SWAGIN range</p><h2>The right tool.<br /><em>For every next step.</em></h2></div><p>Explore cutting and threading tools for workshop use, industrial production and specialised applications.</p></div><div className="category-grid">{categories.map((category) => <a className="category-card" href={productHrefs[category.title] || "#enquiry"} key={category.title}><div className="category-image"><Image src={category.image} alt={category.title} fill sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, (max-width: 1304px) 30vw, 397px" /><span>{category.number}</span></div><div className="category-copy"><h3>{category.title}</h3><p>{category.description}</p><span className="card-arrow"><Arrow /></span></div></a>)}</div><Link className="under-link" href="/products">View full product catalogue <Arrow /></Link></div></section>
       <section className="section solutions" id="solutions"><div className="shell"><div className="section-heading light"><div><p className="eyebrow">Practical problem solving</p><h2>Your challenge.<br /><em>Our starting point.</em></h2></div><p>Tell us about your material, machine and application. We will help you discuss a suitable tooling solution.</p></div><div className="solution-grid">{solutions.map(([title, text, cta], index) => <a className="solution-card" href="#enquiry" key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p><b>{cta} <Arrow /></b></a>)}</div></div></section>
       <section className="custom-section" id="custom-taps"><div className="custom-copy"><p className="eyebrow">Custom tap manufacturing</p><h2>Your drawing.<br /><em>Our expertise.</em><br />A tool that fits.</h2><p>When standard taps do not meet your requirements, share your drawing, sample details or thread specification with Swastik Grand Industries.</p><a className="button button-yellow" href="#enquiry">Discuss your custom tap <Arrow /></a></div><div className="custom-details"><p className="detail-title">Built around your requirement</p><div className="spec-list"><span>Special thread sizes & pitches</span><span>Long shank & extended-length requirements</span><span>Material grade & coating options</span><span>Right-hand & left-hand threads</span></div><p className="drawing-note">Have a drawing or sample?<br /><a href={`mailto:${company.email}`}>Email it to {company.email} <Arrow /></a></p></div></section>
       <section className="section about" id="about"><div className="shell about-grid"><div><p className="eyebrow">The people behind the tool</p><h2>Manufacturing tools.<br /><em>Building confidence.</em></h2></div><div><p className="large-copy">Based in Ludhiana, Punjab, Swastik Grand Industries manufactures and supplies industrial cutting and threading tools under the SWAGIN brand. Since 2016, our focus has been to understand the job, provide the right tool and deliver dependable quality at a fair price.</p><a className="under-link" href="/about">About Swastik Grand <Arrow /></a></div></div></section>

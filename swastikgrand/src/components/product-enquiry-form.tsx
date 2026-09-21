@@ -3,9 +3,9 @@
 import { FormEvent, useState } from "react";
 import { company } from "@/data/site";
 
-type ProductEnquiryFormProps = { initialMode?: string; industry?: string };
+type ProductEnquiryFormProps = { initialMode?: string; industry?: string; productName?: string };
 
-export function ProductEnquiryForm({ initialMode = "Standard", industry = "" }: ProductEnquiryFormProps) {
+export function ProductEnquiryForm({ initialMode = "Standard", industry = "", productName = "HSS Threading Hand Tap" }: ProductEnquiryFormProps) {
   const [prepared, setPrepared] = useState(false);
   const [mode, setMode] = useState(initialMode);
   const [selectedIndustry, setSelectedIndustry] = useState(() => {
@@ -23,9 +23,9 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "" }: 
       event.currentTarget.reportValidity();
       return;
     }
-    const subject = encodeURIComponent(`HSS Hand Tap enquiry: ${mode}`);
+    const subject = encodeURIComponent(`${productName} enquiry: ${mode}`);
     const body = encodeURIComponent([
-      `Product: HSS Threading Hand Tap`, `Enquiry mode: ${mode}`, `Industry/application: ${selectedIndustry}`,
+      `Product: ${productName}`, `Enquiry mode: ${mode}`, `Industry/application: ${selectedIndustry}`,
       `Name: ${form.get("name")}`, `Company: ${form.get("company")}`, `Email: ${form.get("email")}`, `Phone: ${form.get("phone")}`,
       `Thread size and pitch/TPI: ${form.get("thread")}`, `Quantity: ${form.get("quantity")}`, `Material: ${form.get("material")}`,
       `Country: ${form.get("country")}`, `Requirements: ${form.get("details")}`,
