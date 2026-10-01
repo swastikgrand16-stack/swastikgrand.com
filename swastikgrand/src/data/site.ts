@@ -30,69 +30,69 @@ export const categories = [
   },
   {
     "number": "04",
-    "title": "HSS Nut Tap",
-    "description": "Threading tools for nut production.",
+    "title": "HSS Long Nut Tap",
+    "description": "Long nut taps for suitable nut production threading.",
     "image": "/images/products/hss-nut-tap.jpg"
   },
   {
     "number": "05",
+    "title": "HSS Short Nut Tap",
+    "description": "Short nut taps for suitable internal threading.",
+    "image": "/images/products/hss-short-nut-tap.jpg"
+  },
+  {
+    "number": "06",
     "title": "HSS SPPT Tap",
     "description": "Spiral point taps for through-hole threading.",
     "image": "/images/products/hss-sppt-tap.jpg"
   },
   {
-    "number": "06",
+    "number": "07",
     "title": "HSS Acme Tap",
     "description": "Taps for Acme thread profiles.",
     "image": "/images/products/hss-acme-tap.jpg"
   },
   {
-    "number": "07",
+    "number": "08",
     "title": "HSS Reamers",
     "description": "Reamers for finishing machined holes.",
     "image": "/images/products/hss-reamers.jpg"
   },
   {
-    "number": "08",
+    "number": "09",
     "title": "Circular Thread Roll",
     "description": "Circular rolls for external thread forming.",
     "image": "/images/products/circular-thread-roll.jpg"
   },
   {
-    "number": "09",
+    "number": "10",
     "title": "HSS Round Tool Bit",
     "description": "Round tool bits for machining and custom grinding.",
     "image": "/images/products/hss-round-tool-bit.png"
   },
   {
-    "number": "10",
+    "number": "11",
     "title": "HSS Square Tool Bit",
     "description": "Square tool bits for turning and shaping.",
     "image": "/images/products/hss-square-tool-bit.jpg"
   },
   {
-    "number": "11",
+    "number": "12",
     "title": "HSS Gear Hob Cutter",
     "description": "Hob cutters for gear manufacturing.",
     "image": "/images/products/hss-gear-hob-cutter.jpg"
   },
   {
-    "number": "12",
+    "number": "13",
     "title": "HSS Thread Forming Roll Tap",
     "description": "Roll taps for forming internal threads.",
     "image": "/images/products/hss-thread-forming-roll-tap.jpg"
   },
   {
-    "number": "13",
+    "number": "14",
     "title": "HSS Round Thread Cutting Die",
     "description": "Round dies for cutting external threads.",
     "image": "/images/products/hss-round-thread-cutting-die.jpg"
-  },
-  {
-    "number": "14",
-    "title": "HSS Short Nut Tap",
-    "description": "Short nut taps for internal threading.",
-    "image": "/images/products/hss-short-nut-tap.jpg"
   },
   {
     "number": "15",

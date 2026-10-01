@@ -11,7 +11,7 @@ const productHrefs: Record<string, string> = {
   "HSS Threading Hand Tap": "/products/hss-threading-taps/hss-hand-taps",
   "HSS Hand Tap Set": "/products/hss-threading-taps/hss-hand-tap-sets",
   "HSS Machine Tap": "/products/hss-threading-taps/hss-machine-taps",
-  "HSS Nut Tap": "/products/hss-threading-taps/hss-nut-taps",
+  "HSS Long Nut Tap": "/products/hss-threading-taps/hss-long-nut-taps",
   "HSS SPPT Tap": "/products/hss-threading-taps/hss-spiral-point-taps",
   "HSS Acme Tap": "/products/hss-threading-taps/hss-acme-thread-taps",
   "HSS Cutter": "/get-a-quote?product=HSS%20Cutter",
