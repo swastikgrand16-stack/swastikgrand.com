@@ -12,7 +12,7 @@ export const company = {
 export const categories = [
   {
     "number": "01",
-    "title": "HSS Hand Tap",
+    "title": "HSS Threading Hand Tap",
     "description": "Hand taps for internal threading.",
     "image": "/images/products/hss-hand-tap.jpg"
   },

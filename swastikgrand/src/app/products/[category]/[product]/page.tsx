@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductEnquiryForm } from "@/components/product-enquiry-form";
 import { SiteShell } from "@/components/site-shell";
+import HssHandTapPage from "@/app/products/hss-hand-taps/hss-hand-tap/page";
+import HssHandTapSetPage from "@/app/products/hss-hand-taps/hss-hand-tap-sets/page";
+import { BspMachineTapPage } from "@/components/bsp-machine-tap-page";
 import { categories, company } from "@/data/site";
 import { productMenu } from "@/data/menu";
 import type { Metadata } from "next";
@@ -53,6 +56,15 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string; product: string }> }): Promise<Metadata> {
   const { category: categorySlug, product: productSlug } = await params;
+  if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-taps") {
+    return { title: "HSS Threading Hand Tap Manufacturer in India | Swastik Grand Industries", description: "SWAGIN HSS threading hand taps from Ludhiana: M2, M35 and M42 options. Discuss tool-room and component-threading requirements for bulk, export or custom orders." };
+  }
+  if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-tap-sets") {
+    return { title: "HSS Hand Tap Set Manufacturer in India | Swastik Grand Industries", description: "SWAGIN three-piece HSS hand tap sets with taper, plug/intermediate and bottoming taps. Discuss sizes, specifications, bulk, export and custom requirements." };
+  }
+  if (categorySlug === "hss-threading-taps" && productSlug === "hss-machine-taps") {
+    return { title: "HSS Machine Tap Manufacturer in India | Swastik Grand Industries", description: "SWAGIN HSS machine taps for suitable internal threading requirements. Discuss thread standard, size, material, machine, quantity and drawing details." };
+  }
   const category = productMenu.find((item) => item.href.endsWith(`/${categorySlug}`));
   const product = category?.children?.find((item) => item.href.endsWith(`/${productSlug}`));
   if (!product) return {};
@@ -62,6 +74,9 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ category: string; product: string }> }) {
   const { category: categorySlug, product: productSlug } = await params;
+  if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-taps") return <HssHandTapPage />;
+  if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-tap-sets") return <HssHandTapSetPage />;
+  if (categorySlug === "hss-threading-taps" && productSlug === "hss-machine-taps") return <BspMachineTapPage />;
   const category = productMenu.find((item) => item.href.endsWith(`/${categorySlug}`));
   const product = category?.children?.find((item) => item.href.endsWith(`/${productSlug}`));
   if (!category || !product) notFound();

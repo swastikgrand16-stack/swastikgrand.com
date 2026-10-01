@@ -4,15 +4,22 @@ import { FormEvent, useState } from "react";
 import { company } from "@/data/site";
 
 export function EnquiryForm() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setStatus("sending");
+    setError("");
     const form = new FormData(event.currentTarget);
-    const subject = encodeURIComponent(`Website enquiry: ${form.get("enquiryType")}`);
-    const body = encodeURIComponent(`Name: ${form.get("name")}\nEmail: ${form.get("email")}\nCountry: ${form.get("country")}\nCompany: ${form.get("company")}\nPhone: ${form.get("phone")}\nRequirement: ${form.get("requirement")}\nDetails: ${form.get("details")}`);
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
-    setSent(true);
+    const response = await fetch("/api/enquiries", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(form.entries())) });
+    if (!response.ok) {
+      const result = await response.json().catch(() => null) as { error?: string } | null;
+      setError(result?.error || "The enquiry could not be sent. Please try again.");
+      setStatus("error");
+      return;
+    }
+    setStatus("sent");
   }
 
   return (
@@ -27,8 +34,9 @@ export function EnquiryForm() {
       </div>
       <label>What do you need?<input name="requirement" required placeholder="Product, size, thread or application" /></label>
       <label>Comment or message<textarea name="details" rows={4} placeholder="Material, quantity, drawing reference or required date" /></label>
-      <div className="form-actions"><button className="button button-dark" type="submit">Prepare email enquiry <span>↗</span></button><a className="text-link" href={company.whatsapp} target="_blank" rel="noreferrer">Open WhatsApp <span>↗</span></a></div>
-      {sent && <p className="form-note" role="status">Your email app should open with the enquiry drafted. Please review and send it.</p>}
+      <div className="form-actions"><button className="button button-dark" type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending enquiry..." : "Send enquiry"} <span>↗</span></button><a className="text-link" href={company.whatsapp} target="_blank" rel="noreferrer">Open WhatsApp <span>↗</span></a></div>
+      {status === "sent" && <p className="form-note" role="status">Your enquiry was sent. We will review the details and contact you.</p>}
+      {status === "error" && <p className="form-error" role="alert">{error} <a href={`mailto:${company.email}`}>Email us directly</a>.</p>}
       <p className="privacy-note">We use these details only to respond to your enquiry. No marketing subscription is created.</p>
     </form>
   );

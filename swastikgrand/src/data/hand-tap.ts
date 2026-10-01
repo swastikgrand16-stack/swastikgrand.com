@@ -38,15 +38,16 @@ export const handTapThreadFamilies = [
 ];
 
 export const handTapIndustries = [
-  ["Nuts and fasteners", "Internal threads in nuts and internally threaded components. Review a dedicated nut or machine tap for volume production."],
-  ["Tool rooms, dies and moulds", "Jigs, fixtures, die plates and tooling accessories where hardness, access and blind-hole clearance are suitable."],
-  ["Bicycle and cycle parts", "Selected brackets and assemblies. Confirm special pitches, handedness and the exact component drawing."],
-  ["Automotive and auto parts", "Brackets, housings, fixtures and repair components. Distinguish manual work from repeated machine production."],
-  ["General engineering", "Machine components, assemblies and workshop fixtures matched to the material and thread depth."],
-  ["Pumps, valves and fittings", "Mounting holes and threaded ports where parallel, taper and sealing requirements are confirmed."],
-  ["Agricultural machinery", "Brackets, replacement components and machinery fixtures selected for the access and repair condition."],
-  ["Maintenance and repair", "Replacement-part preparation and damaged-thread assessment. An insert may be needed where material is missing."],
-  ["Aircraft, aerospace and space", "Drawing-led fixtures and qualified manufacturing-process enquiries. No blanket aerospace approval is claimed."],
+  ["Nuts and fasteners", "Internal threads in nuts and internally threaded components. Review a dedicated nut or machine tap for volume production.", "https://images.unsplash.com/photo-1565610222536-ef125c59da2e?auto=format&fit=crop&w=900&q=85"],
+  ["Tool rooms, dies and moulds", "Jigs, fixtures, die plates and tooling accessories where hardness, access and blind-hole clearance are suitable.", "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=900&q=85"],
+  ["Bicycle and cycle parts", "Selected brackets and assemblies. Confirm special pitches, handedness and the exact component drawing.", "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=85"],
+  ["Automotive and auto parts", "Brackets, housings, fixtures and repair components. Distinguish manual work from repeated machine production.", "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=900&q=85"],
+  ["General engineering", "Machine components, assemblies and workshop fixtures matched to the material and thread depth.", "https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&w=900&q=85"],
+  ["Pumps, valves and fittings", "Mounting holes and threaded ports where parallel, taper and sealing requirements are confirmed.", "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&w=900&q=85"],
+  ["Agricultural machinery", "Brackets, replacement components and machinery fixtures selected for the access and repair condition.", "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=85"],
+  ["Maintenance and repair", "Replacement-part preparation and damaged-thread assessment. An insert may be needed where material is missing.", "https://images.unsplash.com/photo-1581147036324-c17ac41c95a7?auto=format&fit=crop&w=900&q=85"],
+  ["Aircraft, aerospace and space", "Drawing-led fixtures and qualified manufacturing-process enquiries. No blanket aerospace approval is claimed.", "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=85"],
+  ["Electrical and electronics industries using HSS taps", "Enclosures, panels, motor assemblies and electrical hardware where thread size, material and insulation constraints are reviewed.", "https://images.unsplash.com/photo-1565610222536-ef125c59da2e?auto=format&fit=crop&w=900&q=85"],
 ];
 
 export const handTapFaqs = [
@@ -61,7 +62,7 @@ export const handTapFaqs = [
 ];
 
 export const handTapSetGallery = [
-  { src: "/images/products/hss-hand-tap-set.jpg", alt: "SWAGIN HSS hand tap set with three pieces", label: "Three-piece HSS hand tap set", width: 1600, height: 1600 },
+  { src: "/images/products/hss-hand-tap-set.jpg", alt: "SWAGIN HSS hand tap set with three pieces", label: "Three-piece HSS hand tap set", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Tap-Set.jpg" },
 ];
 
 export const handTapSetSpecs = [

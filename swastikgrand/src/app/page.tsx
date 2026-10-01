@@ -2,12 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { HeroBannerRotator } from "@/components/hero-banner-rotator";
+import { SiteShell } from "@/components/site-shell";
 import { categories, company, solutions } from "@/data/site";
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
 const productHrefs: Record<string, string> = {
-  "HSS Hand Tap": "/products/hss-threading-taps/hss-hand-taps",
+  "HSS Threading Hand Tap": "/products/hss-threading-taps/hss-hand-taps",
   "HSS Hand Tap Set": "/products/hss-threading-taps/hss-hand-tap-sets",
   "HSS Machine Tap": "/products/hss-threading-taps/hss-machine-taps",
   "HSS Nut Tap": "/products/hss-threading-taps/hss-nut-taps",
@@ -28,9 +29,7 @@ const productHrefs: Record<string, string> = {
 
 export default function Home() {
   return (
-    <main>
-      <div className="utility"><div className="shell utility-inner"><span>Precision cutting tools. Made in India.</span><span><a href={company.phoneHref}>{company.phone}</a><i /> <a href={`mailto:${company.email}`}>{company.email}</a></span></div></div>
-      <header className="site-header"><div className="shell nav"><a className="logo" href="#top" aria-label="Swastik Grand Industries home"><span className="logo-mark">SG</span><strong className="logo-name">Swastik Grand Industries</strong></a><nav><a href="#products">Products</a><a href="/industrial-solutions">Industrial Solutions</a><a href="/custom-taps">Custom Taps</a><a href="/about">About Us</a><a href="/contact">Contact</a></nav><a className="button button-small" href="/get-a-quote">Get a quote <Arrow /></a><a className="menu-button" href="/get-a-quote" aria-label="Go to enquiry">Menu</a></div></header>
+    <SiteShell><main>
       <section className="hero" id="top">
         <div className="shell hero-grid">
           <div className="hero-copy">
@@ -79,7 +78,6 @@ export default function Home() {
       <section className="video-section"><div className="shell video-grid"><div className="video-placeholder"><iframe className="video-embed" src="https://www.youtube.com/embed/BHTs56TPKFg" title="Swastik Grand Industries factory introduction" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></div><div><p className="eyebrow">See the work behind the name</p><h2>A closer look<br /><em>at SWAGIN.</em></h2><p>Meet the people and place behind Swastik Grand Industries in our factory introduction.</p><a className="under-link" href="https://www.youtube.com/watch?v=BHTs56TPKFg" target="_blank" rel="noreferrer">Watch on YouTube <Arrow /></a></div></div></section>
       <section className="order-section"><div className="shell order-grid"><div><p className="eyebrow">For your next requirement</p><h2>Ready when<br /><em>you are.</em></h2></div><div className="order-options"><a href="#enquiry"><span>01</span><h3>Bulk enquiries</h3><p>Size-wise quantities, grade, coating and required date.</p><b>Request bulk quotation <Arrow /></b></a><a href="#enquiry"><span>02</span><h3>Export enquiries</h3><p>Destination country, quantities, documents and terms.</p><b>Discuss export requirements <Arrow /></b></a></div></div></section>
       <section className="enquiry-section" id="enquiry"><div className="shell enquiry-grid"><div><p className="eyebrow">Let&apos;s talk tooling</p><h2>Tell us what you need to cut.<br /><em>We&apos;ll help you find the tool.</em></h2><p>Share your size, material, quantity or drawing with our team.</p><div className="contact-list"><a href={company.phoneHref}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a><a href={company.whatsapp} target="_blank" rel="noreferrer">WhatsApp us <Arrow /></a></div></div><EnquiryForm /></div></section>
-      <footer><div className="shell footer-top"><a className="logo logo-footer" href="#top"><span className="logo-mark">SG</span><strong className="logo-name">Swastik Grand Industries</strong></a><p>High-quality cutting tools and custom threading solutions, made for real production challenges.</p><div className="footer-nav"><a href="#products">Products</a><a href="#solutions">Solutions</a><a href="#custom-taps">Custom taps</a><a href="#about">About</a><a href="#enquiry">Contact</a></div></div><div className="shell footer-bottom"><span>© 2026 Swastik Grand Industries</span><span>{company.address}</span><a href="#top">Back to top ↑</a></div></footer>
-    </main>
+    </main></SiteShell>
   );
 }
