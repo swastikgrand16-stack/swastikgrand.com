@@ -32,7 +32,7 @@ export const categories = [
     "number": "04",
     "title": "HSS Long Nut Tap",
     "description": "Long nut taps for suitable nut production threading.",
-    "image": "/images/products/hss-nut-tap.jpg"
+    "image": "/images/products/hss-long-nut-threading-tap.jpg"
   },
   {
     "number": "05",
@@ -54,54 +54,60 @@ export const categories = [
   },
   {
     "number": "08",
-    "title": "HSS Reamers",
-    "description": "Reamers for finishing machined holes.",
+    "title": "HSS Hand Reamer",
+    "description": "Parallel-shank reamers for suitable manual hole finishing.",
     "image": "/images/products/hss-reamers.jpg"
   },
   {
     "number": "09",
+    "title": "HSS Machine Reamer",
+    "description": "Long-flute reamers for suitable machine hole finishing.",
+    "image": "/images/products/hss-machine-reamer.jpg"
+  },
+  {
+    "number": "10",
     "title": "Circular Thread Roll",
     "description": "Circular rolls for external thread forming.",
     "image": "/images/products/circular-thread-roll.jpg"
   },
   {
-    "number": "10",
+    "number": "11",
     "title": "HSS Round Tool Bit",
     "description": "Round tool bits for machining and custom grinding.",
     "image": "/images/products/hss-round-tool-bit.png"
   },
   {
-    "number": "11",
+    "number": "12",
     "title": "HSS Square Tool Bit",
     "description": "Square tool bits for turning and shaping.",
     "image": "/images/products/hss-square-tool-bit.jpg"
   },
   {
-    "number": "12",
+    "number": "13",
     "title": "HSS Gear Hob Cutter",
     "description": "Hob cutters for gear manufacturing.",
     "image": "/images/products/hss-gear-hob-cutter.jpg"
   },
   {
-    "number": "13",
-    "title": "HSS Thread Forming Roll Tap",
-    "description": "Roll taps for forming internal threads.",
+    "number": "14",
+    "title": "Thread Roll Forming Tap",
+    "description": "Chipless taps for forming internal threads in suitable ductile materials.",
     "image": "/images/products/hss-thread-forming-roll-tap.jpg"
   },
   {
-    "number": "14",
+    "number": "15",
     "title": "HSS Round Thread Cutting Die",
     "description": "Round dies for cutting external threads.",
     "image": "/images/products/hss-round-thread-cutting-die.jpg"
   },
   {
-    "number": "15",
+    "number": "16",
     "title": "HSS End Mill Cutter",
     "description": "End mills for milling applications.",
     "image": "/images/products/hss-end-mill-cutter.jpg"
   },
   {
-    "number": "16",
+    "number": "17",
     "title": "HSS Heli Coil Tap",
     "description": "Taps for preparing threads for repair inserts.",
     "image": "/images/products/hss-heli-coil-tap.jpg"

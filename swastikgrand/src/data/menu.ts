@@ -18,7 +18,7 @@ export const productMenu: ProductMenuItem[] = [
       { label: "HSS Long Nut Tap", href: "/products/hss-threading-taps/hss-long-nut-taps" },
       { label: "HSS Spiral Point Taps (SPPT)", href: "/products/hss-threading-taps/hss-spiral-point-taps" },
       { label: "HSS ACME Thread Taps", href: "/products/hss-threading-taps/hss-acme-thread-taps" },
-      { label: "HSS Thread Forming Roll Taps", href: "/products/hss-threading-taps/hss-thread-forming-taps" },
+      { label: "Thread Roll Forming Tap", href: "/products/hss-threading-taps/hss-thread-forming-taps" },
       { label: "HSS Heli-Coil STI Taps", href: "/products/hss-threading-taps/hss-helicoil-sti-taps" },
     ],
   },
@@ -46,7 +46,8 @@ export const productMenu: ProductMenuItem[] = [
     href: "/products/hss-reamers",
     description: "Hole-finishing tools for suitable machining requirements.",
     children: [
-      { label: "HSS Reamers", href: "/products/hss-reamers" },
+      { label: "HSS Hand Reamer", href: "/products/hss-reamers/hss-hand-reamers" },
+      { label: "HSS Machine Reamer", href: "/products/hss-reamers/hss-machine-reamers" },
     ],
   },
   {
