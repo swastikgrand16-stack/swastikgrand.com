@@ -7,7 +7,9 @@ const nextConfig: NextConfig = {
 	async redirects() {
 		return [
 			{ source: "/products/hss-hand-taps/hss-hand-tap", destination: "/products/hss-threading-taps/hss-hand-taps", permanent: true },
+			{ source: "/products/hss-hand-taps/hss-hand-tap/", destination: "/products/hss-threading-taps/hss-hand-taps", permanent: true },
 			{ source: "/hss-threading-taps/hand-taps/hss-hand-tap-manufacturers", destination: "/products/hss-threading-taps/hss-hand-taps", permanent: true },
+			{ source: "/hss-threading-taps/hand-taps/hss-hand-tap-manufacturers/", destination: "/products/hss-threading-taps/hss-hand-taps", permanent: true },
 		];
 	},
 	images: {
