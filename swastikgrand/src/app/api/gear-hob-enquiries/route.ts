@@ -106,13 +106,52 @@ export async function POST(request: NextRequest) {
     ...(attachment ? { attachments: [attachment] } : {}),
   };
 
+  const recipientEmail = process.env.RESEND_TO_EMAIL || "info@swastikgrand.com";
+  const fromEmail = process.env.RESEND_FROM_EMAIL || "Swastik Grand Website <onboarding@resend.dev>";
+
+  const businessEmailPromise = fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const customerEmailPromise = email
+    ? fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: [email],
+          reply_to: recipientEmail,
+          subject: `We received your enquiry: HSS Gear Hob Cutter - Swastik Grand Industries`,
+          html: `<!doctype html><html><body style="margin:0;background:#f3f5f7;color:#202d3b;font-family:Arial,Helvetica,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f5f7;padding:28px 12px"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border:1px solid #e1e6e9"><tr><td style="background:#142333;padding:25px 28px"><div style="color:#fac62b;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">SWAGIN / SWASTIK GRAND INDUSTRIES</div><div style="color:#ffffff;font-size:24px;font-weight:700;margin-top:12px">Gear Hob Enquiry Received</div></td></tr><tr><td style="height:6px;background:#fac62b;font-size:0;line-height:0">&nbsp;</td></tr><tr><td style="padding:28px"><p style="margin:0 0 16px;color:#202d3b;font-size:16px;line-height:1.6;font-weight:600">Dear ${escapeHtml(name)},</p><p style="margin:0 0 16px;color:#4a5560;font-size:14px;line-height:1.6">Thank you for contacting <strong>Swastik Grand Industries</strong>. We have successfully received your technical specifications for <strong>HSS Gear Hob Cutters</strong>.</p><p style="margin:0 0 20px;color:#4a5560;font-size:14px;line-height:1.6">Our engineering team is evaluating your parameters and will get back to you with custom manufacturing lead time and pricing shortly.</p><div style="margin:24px 0 12px;color:#142333;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Submitted specifications:</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e1e6e9;border-collapse:collapse">${emailRows}</table><div style="margin-top:28px;padding:18px 20px;background:#f8fafb;border-left:4px solid #fac62b"><div style="color:#142333;font-size:13px;font-weight:700;margin-bottom:6px">Need immediate assistance?</div><div style="color:#4a5560;font-size:13px;line-height:1.6">Call / WhatsApp: <a href="https://wa.me/919888038583" style="color:#142333;font-weight:700;text-decoration:none">+91 98880 38583</a><br>Email: <a href="mailto:${escapeHtml(recipientEmail)}" style="color:#142333;font-weight:700;text-decoration:none">${escapeHtml(recipientEmail)}</a></div></div></td></tr><tr><td style="background:#142333;padding:18px 28px;color:#aebbc3;font-size:11px;line-height:1.6">Swastik Grand Industries · #1916, Street No. 36, Janta Nagar, Ludhiana, Punjab, India - 141003<br><span style="color:#fac62b">Manufacturers & Exporters of Industrial Threading & Cutting Tools</span></td></tr></table></td></tr></table></body></html>`,
+          text: [
+            `Dear ${name},`,
+            "",
+            "Thank you for contacting Swastik Grand Industries. We have received your technical specifications for HSS Gear Hob Cutters.",
+            "Our engineering team is reviewing your requirements and will get back to you shortly.",
+            "",
+            "Submitted specifications:",
+            `Product: HSS Gear Hob Cutter`,
+            `Quantity: ${quantity}`,
+            `Company: ${text(form, "company", 160) || "Not provided"}`,
+            details,
+            "",
+            "Direct contact:",
+            "Phone / WhatsApp: +91 98880 38583",
+            `Email: ${recipientEmail}`,
+            "Website: https://swastikgrand.com",
+            "",
+            "Swastik Grand Industries, Ludhiana, Punjab, India",
+          ].filter(Boolean).join("\n"),
+        }),
+      }).catch(() => null)
+    : Promise.resolve(null);
+
   let emailResponse: Response;
   try {
-    emailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    const [response] = await Promise.all([businessEmailPromise, customerEmailPromise]);
+    emailResponse = response;
   } catch {
     return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
   }
