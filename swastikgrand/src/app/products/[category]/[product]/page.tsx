@@ -102,7 +102,11 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
     return { title: "HSS Gear Hob Cutter Manufacturer in India | Swastik Grand", description: "Request HSS gear hob cutters from Swastik Grand Industries, Ludhiana. Share module/DP, pressure angle, bore size and drawing for a quotation.", alternates: { canonical: "https://swastikgrand.com/products/milling-gear-cutters/hss-gear-hob-cutters" } };
   }
   if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-taps") {
-    return { title: "HSS Threading Hand Tap Manufacturer in India | Swastik Grand Industries", description: "SWAGIN HSS threading hand taps from Ludhiana: M2, M35 and M42 options. Discuss tool-room and component-threading requirements for bulk, export or custom orders." };
+    return {
+      title: "HSS Hand Tap Manufacturer in India | Swastik Grand",
+      description: "SWAGIN HSS hand taps manufactured in Ludhiana, India. Explore M2, M35 and M42 grades. Request a quote for standard, bulk, export or custom requirements.",
+      alternates: { canonical: "https://swastikgrand.com/products/hss-threading-taps/hss-hand-taps" },
+    };
   }
   if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-tap-sets") {
     return { title: "HSS Hand Tap Set Manufacturer in India | Swastik Grand Industries", description: "SWAGIN three-piece HSS hand tap sets with taper, plug/intermediate and bottoming taps. Discuss sizes, specifications, bulk, export and custom requirements." };

@@ -203,11 +203,11 @@ function DimensionTable({ caption, rows }: { caption: string; rows: readonly Tap
 }
 
 export function HandTapDimensionsReference() {
-  return <section id="tap-dimensions" className="thread-forms-section section"><div className="shell">
+  return <div id="tap-dimensions" className="thread-forms-section section"><div className="shell">
     <div className="section-heading"><div><p className="eyebrow">Metric size reference</p><h2>Hand tap dimensions.<br /><em>Coarse and fine pitch.</em></h2></div><p>Dimensions below are in millimetres. Use the nominal diameter and pitch to identify a row; confirm exact dimensions and availability for the selected tap.</p></div>
     <div className="thread-standard-group"><h3>Metric coarse pitch</h3><DimensionTable caption="Coarse-pitch screwing tap dimensions (mm)" rows={coarsePitchDimensions} /></div>
     <div className="thread-standard-group"><h3>Metric fine pitch</h3><DimensionTable caption="Fine-pitch screwing tap dimensions (mm)" rows={finePitchDimensions} /></div>
-    <div className="thread-standards-note"><h3>Catalog supply notes</h3><ul><li>Unless otherwise specified, the supplied chart lists tolerance class 6H, non-serial pitch and straight flutes.</li><li>It notes coarse-pitch sets as taper, second and bottoming taps; fine-pitch sets as taper and bottoming taps.</li></ul></div>
-    <p className="thread-standards-copy">Reference transcribed from the catalog pages supplied with this request, which carry Addison branding. This chart is not confirmation that every listed size or dimension is a Swastik Grand stock configuration. Confirm the applicable specification, tolerance and availability in your quotation.</p>
-  </div></section>;
+    <div className="thread-standards-note"><h3>Catalog supply notes</h3><ul><li>The Addison catalog lists tolerance class 6H, non-serial pitch and straight flutes unless otherwise specified.</li><li>It identifies coarse-pitch sets as taper, second and bottoming taps; fine-pitch sets as taper and bottoming taps.</li></ul></div>
+    <p className="thread-standards-copy">Reference transcribed from Addison catalog pages. The listed dimensions are references only and do not confirm SWAGIN manufacturing availability.</p>
+  </div></div>;
 }

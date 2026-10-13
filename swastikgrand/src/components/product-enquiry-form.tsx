@@ -1,16 +1,18 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { company } from "@/data/site";
+import { trackHssHandTapEvent } from "@/components/hss-hand-tap-contact-link";
 
-type ProductEnquiryFormProps = { initialMode?: string; industry?: string; productName?: string };
+type ProductEnquiryFormProps = { initialMode?: string; industry?: string; productName?: string; handTapSubmission?: boolean };
 
-export function ProductEnquiryForm({ initialMode = "Standard", industry = "", productName = "HSS Threading Hand Tap" }: ProductEnquiryFormProps) {
+export function ProductEnquiryForm({ initialMode = "Standard", industry = "", productName = "HSS Threading Hand Tap", handTapSubmission = false }: ProductEnquiryFormProps) {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
   const [mode, setMode] = useState(initialMode);
+  const leadTrackedRef = useRef(false);
   const [selectedIndustry, setSelectedIndustry] = useState(() => {
     if (typeof window === "undefined") return industry;
     return new URLSearchParams(window.location.search).get("industry") || industry;
@@ -18,6 +20,7 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (status === "sending" || (handTapSubmission && status === "sent")) return;
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
     const country = String(form.get("country") || "").trim();
@@ -25,6 +28,14 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
       const countryField = formElement.elements.namedItem("country");
       if (countryField instanceof HTMLInputElement) countryField.setCustomValidity("Country is required for export enquiries.");
       formElement.reportValidity();
+      return;
+    }
+
+    const email = String(form.get("email") || "").trim();
+    const phone = String(form.get("phone") || "").trim();
+    if (handTapSubmission && !email && !phone) {
+      setError("Enter an email address or phone number so we can contact you.");
+      setStatus("error");
       return;
     }
 
@@ -37,13 +48,14 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
       industry: selectedIndustry,
       name: String(form.get("name") || "").trim(),
       company: String(form.get("company") || "").trim(),
-      email: String(form.get("email") || "").trim(),
-      phone: String(form.get("phone") || "").trim(),
+      email,
+      phone,
       thread: String(form.get("thread") || "").trim(),
       quantity: String(form.get("quantity") || "").trim(),
       material: String(form.get("material") || "").trim(),
       country,
       details: String(form.get("details") || "").trim(),
+      ...(handTapSubmission ? { website: String(form.get("website") || "").trim() } : {}),
     };
 
     try {
@@ -66,7 +78,15 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
         return;
       }
 
-      router.push(`/enquiry-confirmation?reference=${encodeURIComponent(result.reference)}&product=${encodeURIComponent(productName)}`);
+      if (handTapSubmission) {
+        if (!leadTrackedRef.current) {
+          leadTrackedRef.current = true;
+          trackHssHandTapEvent("generate_lead");
+        }
+        setStatus("sent");
+      } else {
+        router.push(`/enquiry-confirmation?reference=${encodeURIComponent(result.reference)}&product=${encodeURIComponent(productName)}`);
+      }
     } catch {
       setError("The enquiry could not be sent. Please try again or contact us directly.");
       setStatus("error");
@@ -74,7 +94,15 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
   }
 
   return (
-    <form className="enquiry-form product-enquiry-form" onSubmit={handleSubmit}>
+    <form className="enquiry-form product-enquiry-form" onSubmit={handleSubmit} aria-busy={status === "sending"}>
+      {handTapSubmission && (
+        <div className="product-enquiry-honeypot" aria-hidden="true">
+          <label>
+            Leave this field empty
+            <input name="website" tabIndex={-1} autoComplete="off" />
+          </label>
+        </div>
+      )}
       <label>
         Industry / application
         <input
@@ -104,25 +132,34 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
         </label>
         <label>Full name<input name="name" required placeholder="Your name" /></label>
         <label>Company<input name="company" required={mode !== "Standard"} placeholder="Company name" /></label>
-        <label>Email<input name="email" required type="email" placeholder="you@company.com" /></label>
-        <label>Phone / WhatsApp<input name="phone" required type="tel" placeholder="+91 ..." /></label>
-        <label>Thread size and pitch / TPI<input name="thread" required placeholder="M10 x 1.5 or 1/4-20 UNC" /></label>
+        <label>{handTapSubmission ? "Email (optional)" : "Email"}<input name="email" required={!handTapSubmission} type="email" placeholder="you@company.com" /></label>
+        <label>{handTapSubmission ? "Phone / WhatsApp (optional)" : "Phone / WhatsApp"}<input name="phone" required={!handTapSubmission} type="tel" placeholder="+91 ..." /></label>
+        <label>{handTapSubmission ? "Thread size, pitch / TPI, standard and RH/LH" : "Thread size and pitch / TPI"}<input name="thread" required placeholder="M10 x 1.5 or 1/4-20 UNC" /></label>
         <label>Quantity<input name="quantity" required placeholder="Quantity or size-wise list" /></label>
         <label>Workpiece material<input name="material" placeholder="Steel, aluminium, cast iron..." /></label>
         <label>Country / delivery location<input name="country" placeholder="India or destination country" /></label>
       </div>
-      <label>Additional requirements<textarea name="details" rows={4} placeholder="Hole type, thread depth, grade, coating, drawing revision or required date" /></label>
+      {handTapSubmission && <p className="privacy-note">Provide at least one contact method: email or phone / WhatsApp.</p>}
+      <label>Additional requirements<textarea name="details" rows={4} placeholder={handTapSubmission ? "Hole type / depth, tolerance, drawing or revision, coating and required date" : "Hole type, thread depth, grade, coating, drawing revision or required date"} /></label>
       <div className="form-actions">
-        <button className="button button-dark" type="submit" disabled={status === "sending"}>
-          {status === "sending" ? "Sending enquiry..." : "Send enquiry"} <span aria-hidden="true">↗</span>
+        <button className="button button-dark" type="submit" disabled={status === "sending" || (handTapSubmission && status === "sent")}>
+          {status === "sending" ? "Sending enquiry..." : status === "sent" ? "Enquiry received" : "Send enquiry"} <span aria-hidden="true">↗</span>
         </button>
-        <a className="text-link" href={company.whatsapp} target="_blank" rel="noreferrer">
+        {handTapSubmission ? (
+          <a className="text-link" href={company.whatsapp} target="_blank" rel="noreferrer" onClick={() => trackHssHandTapEvent("click_whatsapp", "enquiry")}>
+            Open WhatsApp <span aria-hidden="true">↗</span>
+          </a>
+        ) : (
+          <a className="text-link" href={company.whatsapp} target="_blank" rel="noreferrer">
           Open WhatsApp <span aria-hidden="true">↗</span>
-        </a>
+          </a>
+        )}
       </div>
       {status === "sent" && (
         <p className="form-note" role="status">
-          Your enquiry for {productName} was sent successfully. We will review the details and contact you shortly.
+          {handTapSubmission
+            ? "Thank you. Your enquiry has been received. Swastik Grand Industries will contact you using the details provided."
+            : `Your enquiry for ${productName} was sent successfully. We will review the details and contact you shortly.`}
         </p>
       )}
       {status === "error" && (

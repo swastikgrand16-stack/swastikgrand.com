@@ -671,3 +671,41 @@ without a launch instruction.
 - [Factory introduction video](https://www.youtube.com/watch?v=BHTs56TPKFg)
 
 This PRD defines requirements and proposed copy. It does not assert that every feature, verification, integration or launch task has already been completed.
+
+## 24. Search Console inspection and reporting procedure
+
+After the landing page is published, use Google Search Console to:
+
+1. Inspect the exact URL `https://swastikgrand.com/products/hss-threading-taps/hss-hand-taps`.
+2. Review indexing status and Google's selected canonical against the page's self-referencing canonical.
+3. Run the live URL test.
+4. Request indexing after publishing or a material update.
+5. Submit or verify the `https://swastikgrand.com/sitemap.xml` sitemap.
+
+For organic performance, open Search results, filter Page to the exact landing
+URL, and review these queries:
+
+- `HSS hand tap manufacturer`
+- `HSS hand tap manufacturer in India`
+- `HSS hand taps`
+- `custom HSS hand taps`
+
+Compare consecutive 28-day periods for clicks, impressions, CTR and average
+position. Average position is an aggregate metric and is not a fixed Google
+ranking. No Search Console inspection or indexing request is claimed as
+completed without account access.
+
+## 25. Analytics measurement
+
+Reuse the site's GA4 integration only when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is
+configured. Emit `generate_lead` only after the enquiry API accepts the
+submission; count `click_call` and `click_whatsapp` separately. Event parameters
+may include `product_name: HSS Hand Tap`, the current `page_path`, and
+`button_location`. Never send enquiry text, names, email addresses, phone
+numbers, or drawings to analytics. A drawing-download event must only be added
+for an approved drawing and describes a click, not confirmed completion.
+
+The site currently has no consent manager that can gate optional analytics.
+Before enabling GA4 for visitors, implement or connect the company's consent
+policy and ensure analytics honors it. No live GA4 measurement is claimed until
+the measurement ID and consent behavior are configured and verified.

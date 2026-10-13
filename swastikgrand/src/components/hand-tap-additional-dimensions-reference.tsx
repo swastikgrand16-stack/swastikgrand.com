@@ -286,9 +286,9 @@ function DimensionTable({ chart }: { chart: ReferenceChart }) {
 }
 
 export function HandTapAdditionalDimensionsReference() {
-  return <section id="additional-tap-dimensions" className="thread-forms-section section"><div className="shell">
-    <div className="section-heading"><div><p className="eyebrow">Additional thread references</p><h2>Imperial and alternate<br /><em>standard dimensions.</em></h2></div><p>Reference dimensions transcribed from the supplied catalog pages. Each table identifies its own thread series and measurement units.</p></div>
+  return <div id="additional-tap-dimensions" className="thread-forms-section section"><div className="shell">
+    <div className="section-heading"><div><p className="eyebrow">Additional thread references</p><h2>Imperial and alternate<br /><em>standard dimensions.</em></h2></div><p>Reference dimensions transcribed from Addison catalog pages. Each table identifies its own thread series and measurement units.</p></div>
     <div className="tap-dimensions-accordion">{referenceCharts.map((chart) => <details key={chart.title}><summary>{chart.title}</summary><DimensionTable chart={chart} /></details>)}</div>
-    <p className="thread-standards-copy">The supplied pages carry Addison branding. These are catalog reference dimensions, not confirmation that every listed size or dimension is a Swastik Grand stock configuration. Confirm the applicable standard, tolerance and availability in your quotation.</p>
-  </div></section>;
+    <p className="thread-standards-copy">Reference transcribed from Addison catalog pages. The listed dimensions are references only and do not confirm SWAGIN manufacturing availability.</p>
+  </div></div>;
 }

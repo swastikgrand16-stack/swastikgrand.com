@@ -28,7 +28,7 @@ const threadStandards = [
   ["Rd", "Round thread", "Specify standard, diameter and pitch"],
 ] as const;
 
-export function ThreadFormsReference() {
+export function ThreadFormsReference({ relatedHandTapLink = false }: { relatedHandTapLink?: boolean }) {
   return <section id="thread-standards" className="thread-forms-section section"><div className="shell">
     <div className="section-heading"><div><p className="eyebrow">Practical thread reference</p><h2>Know the thread.<br /><em>Specify it clearly.</em></h2></div><p>For HSS taps and dies, metric pitch is measured in millimetres; inch threads are usually specified in TPI (threads per inch).</p></div>
     <div className="thread-forms-table-wrap"><table className="thread-forms-table"><caption>Common thread names for HSS taps and dies</caption><thead><tr><th scope="col">Thread name</th><th scope="col">Full name / meaning</th><th scope="col">Example size</th></tr></thead><tbody>{threadStandards.map(([name, meaning, example]) => <tr key={name}><th scope="row">{name}</th><td>{meaning}</td><td>{example}</td></tr>)}</tbody></table></div>
@@ -37,6 +37,6 @@ export function ThreadFormsReference() {
 
     <p className="thread-standards-copy">Unified thread families are covered by ASME B1.1. This practical industry list includes common metric, Unified, British and pipe series; it is not every specialist thread standard worldwide.</p>
     <div className="thread-sources"><strong>References</strong><a href="https://www.asme.org/wwwasmeorg/media/codes-standards/find-codes/c-t_b1_1_2024.pdf" target="_blank" rel="noreferrer">ASME B1.1 ↗</a><a href="https://www.gewindebohrer.de/en/service/technische-daten/tap-drill-sizes" target="_blank" rel="noreferrer">Tap-drill sizes and thread data ↗</a></div>
-    <div className="thread-reference-actions"><strong>For quotations</strong><span>Write diameter + pitch/TPI + thread standard + RH/LH + tolerance class, where applicable.</span><Link className="under-link" href="#enquiry">Discuss your thread requirement <span aria-hidden="true">↗</span></Link></div>
+    <div className="thread-reference-actions"><strong>For quotations</strong><span>Write diameter + pitch/TPI + thread standard + RH/LH + tolerance class, where applicable.</span>{relatedHandTapLink && <Link className="under-link" href="/products/hss-threading-taps/hss-hand-taps">Individual HSS Hand Taps <span aria-hidden="true">↗</span></Link>}<Link className="under-link" href="#enquiry">Discuss your thread requirement <span aria-hidden="true">↗</span></Link></div>
   </div></section>;
 }

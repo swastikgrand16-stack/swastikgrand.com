@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const productLinks = [
   ["Nut Taps", "https://swastikgrand.com/product-category/nut-taps/"],
-  ["Hand Taps", "https://swastikgrand.com/product-category/hss-threading-taps/hand-taps/"],
+  ["Our HSS hand taps", "/products/hss-threading-taps/hss-hand-taps"],
   ["Machine Taps", "https://swastikgrand.com/product-category/hss-threading-taps/machine-taps/"],
   ["Helicoil Taps", "https://swastikgrand.com/product-category/heli-coil-taps/"],
   ["Pipe Thread Taps", "https://swastikgrand.com/product-category/hss-threading-taps/pipe-threading-taps/"],
@@ -35,7 +35,7 @@ export default function AboutPage() {
 
       <section className="about-facts"><div className="shell about-facts-grid"><div><span>01</span><strong>Established</strong><p>Founded as a proprietorship in 2016.</p></div><div><span>02</span><strong>Based in Ludhiana</strong><p>Serving customers from Punjab, India.</p></div><div><span>03</span><strong>Focused on tooling</strong><p>Nut, machine, hand and specialised taps.</p></div><div><span>04</span><strong>Led by experience</strong><p>Mr. Gurpinder Dani, Proprietor.</p></div></div></section>
 
-      <section className="about-products section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Our products</p><h2>Threading tools for<br /><em>real production.</em></h2></div><p>Explore the SWAGIN range, or tell us what your application requires and our team will help you identify a suitable tool.</p></div><div className="about-product-links">{productLinks.map(([title, href]) => <a href={href} key={title} target="_blank" rel="noreferrer"><span>{title}</span><Arrow /></a>)}</div><Link className="button button-yellow about-cta" href="/#enquiry">Discuss your requirement <Arrow /></Link></div></section>
+      <section className="about-products section"><div className="shell"><div className="section-heading"><div><p className="eyebrow">Our products</p><h2>Threading tools for<br /><em>real production.</em></h2></div><p>Explore the SWAGIN range, or tell us what your application requires and our team will help you identify a suitable tool.</p></div><div className="about-product-links">{productLinks.map(([title, href]) => href.startsWith("/") ? <Link href={href} key={title}><span>{title}</span><Arrow /></Link> : <a href={href} key={title} target="_blank" rel="noreferrer"><span>{title}</span><Arrow /></a>)}</div><Link className="button button-yellow about-cta" href="/#enquiry">Discuss your requirement <Arrow /></Link></div></section>
 
       <section className="about-contact"><div className="shell about-contact-grid"><div><p className="eyebrow">Visit or contact us</p><h2>Let&apos;s talk<br /><em>tooling.</em></h2></div><div className="about-contact-details"><p><strong>Mailing address</strong><br />{company.address}</p><p><strong>Email</strong><br /><a href={`mailto:${company.email}`}>{company.email}</a></p><p><strong>Contact</strong><br /><a href={company.phoneHref}>{company.phone}</a></p><a className="under-link" href={company.whatsapp} target="_blank" rel="noreferrer">Message us on WhatsApp <Arrow /></a></div></div></section>
 

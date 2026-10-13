@@ -6,9 +6,9 @@ import { handTapGallery } from "@/data/hand-tap";
 
 type ProductGalleryImage = (typeof handTapGallery)[number];
 
-type ProductGalleryProps = { images?: ProductGalleryImage[] };
+type ProductGalleryProps = { images?: ProductGalleryImage[]; note?: string };
 
-export function ProductGallery({ images = handTapGallery }: ProductGalleryProps) {
+export function ProductGallery({ images = handTapGallery, note = `${handTapGallery.length} original product views are available to review.` }: ProductGalleryProps) {
   const gallery = images;
   const [activeIndex, setActiveIndex] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -40,7 +40,7 @@ export function ProductGallery({ images = handTapGallery }: ProductGalleryProps)
         <Image src={image.src} alt="" fill sizes="88px" />
       </button>)}
     </div>
-    <p className="product-gallery-caption">{activeImage.label}</p><p className="product-gallery-note">{gallery.length} original product view{gallery.length === 1 ? "" : "s"}, sourced from the approved product page, are available in this build.</p>
+    <p className="product-gallery-caption">{activeImage.label}</p><p className="product-gallery-note">{note}</p>
     {dialogOpen && <div className="product-image-dialog" role="dialog" aria-modal="true" aria-label={activeImage.alt} onClick={() => setDialogOpen(false)}><div className="product-image-dialog-content" onClick={(event) => event.stopPropagation()}><button type="button" className="product-dialog-close" onClick={() => setDialogOpen(false)} aria-label="Close enlarged image">×</button><Image src={activeImage.src} alt={activeImage.alt} fill sizes="90vw" className="product-dialog-image" /><button type="button" className="product-dialog-prev" onClick={() => setActiveIndex((index) => (index - 1 + gallery.length) % gallery.length)} aria-label="Previous image">←</button><button type="button" className="product-dialog-next" onClick={() => setActiveIndex((index) => (index + 1) % gallery.length)} aria-label="Next image">→</button></div></div>}
   </div>;
 }

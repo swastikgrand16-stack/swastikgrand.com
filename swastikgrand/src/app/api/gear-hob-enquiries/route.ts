@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
     .map(([label, value]) => `<tr><td style="padding:12px 14px;border-bottom:1px solid #e6e9eb;color:#68737c;font-size:12px;font-weight:700;text-transform:uppercase;vertical-align:top;width:34%">${escapeHtml(label)}</td><td style="padding:12px 14px;border-bottom:1px solid #e6e9eb;color:#202d3b;font-size:14px;line-height:1.5;vertical-align:top">${escapeHtml(value).replace(/\n/g, "<br>")}</td></tr>`).join("");
   const html = `<!doctype html><html><body style="margin:0;background:#f3f5f7;color:#202d3b;font-family:Arial,Helvetica,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f5f7;padding:28px 12px"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border:1px solid #e1e6e9"><tr><td style="background:#142333;padding:25px 28px"><div style="color:#fac62b;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">SWAGIN / SWASTIK GRAND INDUSTRIES</div><div style="color:#ffffff;font-size:24px;font-weight:700;margin-top:12px">Gear hob cutter enquiry</div></td></tr><tr><td style="height:6px;background:#fac62b;font-size:0;line-height:0">&nbsp;</td></tr><tr><td style="padding:28px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e1e6e9;border-collapse:collapse">${emailRows}</table></td></tr><tr><td style="background:#142333;padding:18px 28px;color:#aebbc3;font-size:11px;line-height:1.6">Swastik Grand Industries · Ludhiana, Punjab, India<br>This message was sent from the website enquiry form.</td></tr></table></td></tr></table></body></html>`;
   const payload = {
-    from: process.env.RESEND_FROM_EMAIL || "Swastik Grand Website <onboarding@resend.dev>",
+    from: process.env.RESEND_FROM_EMAIL || "Swastik Grand Industries <info@swastikgrand.com>",
     to: [process.env.RESEND_TO_EMAIL || "info@swastikgrand.com"],
     ...(email ? { reply_to: email } : {}),
     subject: `Website enquiry: HSS Gear Hob Cutter - ${requirement}`,
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
   };
 
   const recipientEmail = process.env.RESEND_TO_EMAIL || "info@swastikgrand.com";
-  const fromEmail = process.env.RESEND_FROM_EMAIL || "Swastik Grand Website <onboarding@resend.dev>";
+  const fromEmail = process.env.RESEND_FROM_EMAIL || "Swastik Grand Industries <info@swastikgrand.com>";
 
   const businessEmailPromise = fetch("https://api.resend.com/emails", {
     method: "POST",

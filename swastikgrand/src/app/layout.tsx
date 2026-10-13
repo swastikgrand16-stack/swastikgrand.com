@@ -10,6 +10,7 @@ export const metadata: Metadata = { metadataBase: new URL("https://swastikgrand.
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const clarityProjectId = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
+  const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-  return <html lang="en"><body className={`${bodyFont.variable} ${headingFont.variable}`}>{children}{clarityProjectId ? <Script id="microsoft-clarity" strategy="afterInteractive">{`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(clarityProjectId)});`}</Script> : null}</body></html>;
+  return <html lang="en"><body className={`${bodyFont.variable} ${headingFont.variable}`}>{children}{clarityProjectId ? <Script id="microsoft-clarity" strategy="afterInteractive">{`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script",${JSON.stringify(clarityProjectId)});`}</Script> : null}{gaMeasurementId ? <><Script src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaMeasurementId)}`} strategy="afterInteractive" /><Script id="google-analytics-4" strategy="afterInteractive">{`window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};window.gtag('js',new Date());window.gtag('config',${JSON.stringify(gaMeasurementId)});`}</Script></> : null}</body></html>;
 }
