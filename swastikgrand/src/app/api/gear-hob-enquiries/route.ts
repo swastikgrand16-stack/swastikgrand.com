@@ -14,6 +14,12 @@ function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character] || character);
 }
 
+function createReference() {
+  const date = new Date();
+  const datePart = `${date.getUTCFullYear().toString().slice(-2)}${String(date.getUTCMonth() + 1).padStart(2, "0")}${String(date.getUTCDate()).padStart(2, "0")}`;
+  return `SGI-${datePart}-${crypto.randomUUID().replace(/-/g, "").slice(0, 8).toUpperCase()}`;
+}
+
 function isRateLimited(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
   const now = Date.now();
@@ -63,8 +69,8 @@ export async function POST(request: NextRequest) {
   const email = text(form, "email", 254);
   const phone = text(form, "phone", 40);
   const quantity = text(form, "quantity", 120);
-  if (!name || !quantity || (!email && !phone) || text(form, "privacyAcknowledged") !== "on") {
-    return NextResponse.json({ error: "Name, quantity, privacy acknowledgement, and either email or phone / WhatsApp are required." }, { status: 400 });
+  if (!name || !email || !quantity || text(form, "privacyAcknowledged") !== "on") {
+    return NextResponse.json({ error: "Name, email, quantity, and privacy acknowledgement are required." }, { status: 400 });
   }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
@@ -73,7 +79,9 @@ export async function POST(request: NextRequest) {
   const { attachment, error: attachmentError } = await validateDrawing(form.get("drawing"));
   if (attachmentError) return NextResponse.json({ error: attachmentError }, { status: 400 });
 
+  const reference = createReference();
   const allFields: [string, string][] = [
+    ["Reference", reference],
     ["Gear type", text(form, "gearType", 100)],
     ["Module or diametral pitch", text(form, "moduleOrDp", 100)],
     ["Pitch reference", text(form, "pitchReference", 100)],
@@ -124,11 +132,12 @@ export async function POST(request: NextRequest) {
           to: [email],
           reply_to: recipientEmail,
           subject: `We received your enquiry: HSS Gear Hob Cutter - Swastik Grand Industries`,
-          html: `<!doctype html><html><body style="margin:0;background:#f3f5f7;color:#202d3b;font-family:Arial,Helvetica,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f5f7;padding:28px 12px"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border:1px solid #e1e6e9"><tr><td style="background:#142333;padding:25px 28px"><div style="color:#fac62b;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">SWAGIN / SWASTIK GRAND INDUSTRIES</div><div style="color:#ffffff;font-size:24px;font-weight:700;margin-top:12px">Gear Hob Enquiry Received</div></td></tr><tr><td style="height:6px;background:#fac62b;font-size:0;line-height:0">&nbsp;</td></tr><tr><td style="padding:28px"><p style="margin:0 0 16px;color:#202d3b;font-size:16px;line-height:1.6;font-weight:600">Dear ${escapeHtml(name)},</p><p style="margin:0 0 16px;color:#4a5560;font-size:14px;line-height:1.6">Thank you for contacting <strong>Swastik Grand Industries</strong>. We have successfully received your technical specifications for <strong>HSS Gear Hob Cutters</strong>.</p><p style="margin:0 0 20px;color:#4a5560;font-size:14px;line-height:1.6">Our engineering team is evaluating your parameters and will get back to you with custom manufacturing lead time and pricing shortly.</p><div style="margin:24px 0 12px;color:#142333;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Submitted specifications:</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e1e6e9;border-collapse:collapse">${emailRows}</table><div style="margin-top:28px;padding:18px 20px;background:#f8fafb;border-left:4px solid #fac62b"><div style="color:#142333;font-size:13px;font-weight:700;margin-bottom:6px">Need immediate assistance?</div><div style="color:#4a5560;font-size:13px;line-height:1.6">Call / WhatsApp: <a href="https://wa.me/919888038583" style="color:#142333;font-weight:700;text-decoration:none">+91 98880 38583</a><br>Email: <a href="mailto:${escapeHtml(recipientEmail)}" style="color:#142333;font-weight:700;text-decoration:none">${escapeHtml(recipientEmail)}</a></div></div></td></tr><tr><td style="background:#142333;padding:18px 28px;color:#aebbc3;font-size:11px;line-height:1.6">Swastik Grand Industries · #1916, Street No. 36, Janta Nagar, Ludhiana, Punjab, India - 141003<br><span style="color:#fac62b">Manufacturers & Exporters of Industrial Threading & Cutting Tools</span></td></tr></table></td></tr></table></body></html>`,
+          html: `<!doctype html><html><body style="margin:0;background:#f3f5f7;color:#202d3b;font-family:Arial,Helvetica,sans-serif"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f3f5f7;padding:28px 12px"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:640px;background:#ffffff;border:1px solid #e1e6e9"><tr><td style="background:#142333;padding:25px 28px"><div style="color:#fac62b;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase">SWAGIN / SWASTIK GRAND INDUSTRIES</div><div style="color:#ffffff;font-size:24px;font-weight:700;margin-top:12px">Gear Hob Enquiry Received</div></td></tr><tr><td style="height:6px;background:#fac62b;font-size:0;line-height:0">&nbsp;</td></tr><tr><td style="padding:28px"><p style="margin:0 0 16px;color:#202d3b;font-size:16px;line-height:1.6;font-weight:600">Dear ${escapeHtml(name)},</p><p style="margin:0 0 16px;color:#4a5560;font-size:14px;line-height:1.6">Thank you for contacting <strong>Swastik Grand Industries</strong>. We have successfully received your technical specifications for <strong>HSS Gear Hob Cutters</strong>.</p><p style="margin:0 0 20px;color:#4a5560;font-size:14px;line-height:1.6">Our engineering team is evaluating your parameters and will get back to you with custom manufacturing lead time and pricing shortly.</p><p style="margin:0 0 20px;color:#4a5560;font-size:14px;line-height:1.6">Your reference number is <strong>${escapeHtml(reference)}</strong>.</p><div style="margin:24px 0 12px;color:#142333;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Submitted specifications:</div><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #e6e9eb;border-collapse:collapse">${emailRows}</table><div style="margin-top:28px;padding:18px 20px;background:#f8fafb;border-left:4px solid #fac62b"><div style="color:#142333;font-size:13px;font-weight:700;margin-bottom:6px">Need immediate assistance?</div><div style="color:#4a5560;font-size:13px;line-height:1.6">Call / WhatsApp: <a href="https://wa.me/919888038583" style="color:#142333;font-weight:700;text-decoration:none">+91 98880 38583</a><br>Email: <a href="mailto:${escapeHtml(recipientEmail)}" style="color:#142333;font-weight:700;text-decoration:none">${escapeHtml(recipientEmail)}</a></div></div></td></tr><tr><td style="background:#142333;padding:18px 28px;color:#aebbc3;font-size:11px;line-height:1.6">Swastik Grand Industries · #1916, Street No. 36, Janta Nagar, Ludhiana, Punjab, India - 141003<br><span style="color:#fac62b">Manufacturers & Exporters of Industrial Threading & Cutting Tools</span></td></tr></table></td></tr></table></body></html>`,
           text: [
             `Dear ${name},`,
             "",
             "Thank you for contacting Swastik Grand Industries. We have received your technical specifications for HSS Gear Hob Cutters.",
+            `Your reference number is: ${reference}.`,
             "Our engineering team is reviewing your requirements and will get back to you shortly.",
             "",
             "Submitted specifications:",
@@ -145,17 +154,20 @@ export async function POST(request: NextRequest) {
             "Swastik Grand Industries, Ludhiana, Punjab, India",
           ].filter(Boolean).join("\n"),
         }),
-      }).catch(() => null)
-    : Promise.resolve(null);
+      })
+    : Promise.reject(new Error("An email address is required for the confirmation message."));
 
-  let emailResponse: Response;
+  let emailResponses: Response[];
   try {
-    const [response] = await Promise.all([businessEmailPromise, customerEmailPromise]);
-    emailResponse = response;
-  } catch {
+    emailResponses = await Promise.all([businessEmailPromise, customerEmailPromise]);
+  } catch (error) {
+    console.error("Resend request failed:", error);
     return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
   }
-  if (!emailResponse.ok) return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
+  if (emailResponses.some((response) => !response.ok)) {
+    console.error("Resend API error:", emailResponses.map((response) => response.status).join(", "));
+    return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
+  }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, reference });
 }

@@ -1,12 +1,14 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type FormStatus = "idle" | "sending" | "sent" | "error";
 
 const maxDrawingSize = 10 * 1024 * 1024;
 
 export function GearHobEnquiryForm() {
+  const router = useRouter();
   const [status, setStatus] = useState<FormStatus>("idle");
   const [message, setMessage] = useState("");
 
@@ -35,13 +37,18 @@ export function GearHobEnquiryForm() {
 
     try {
       const response = await fetch("/api/gear-hob-enquiries", { method: "POST", body: data });
-      const result = await response.json() as { error?: string };
+      const result = await response.json() as { error?: string; reference?: string };
       if (!response.ok) {
         setMessage(result.error || "The enquiry could not be sent. Please try again or contact us directly.");
         setStatus("error");
         return;
       }
-      setStatus("sent");
+      if (!result.reference) {
+        setMessage("The enquiry could not be confirmed. Please contact us directly.");
+        setStatus("error");
+        return;
+      }
+      router.push(`/enquiry-confirmation?reference=${encodeURIComponent(result.reference)}&product=${encodeURIComponent("HSS Gear Hob Cutter")}`);
     } catch {
       setMessage("The enquiry could not be sent. Please try again or contact us directly.");
       setStatus("error");
@@ -54,7 +61,7 @@ export function GearHobEnquiryForm() {
     <div className="form-grid">
       <label>Full name<input name="name" required maxLength={120} autoComplete="name" /></label>
       <label>Company<input name="company" maxLength={160} autoComplete="organization" /></label>
-      <label>Email<input name="email" type="email" maxLength={254} autoComplete="email" /></label>
+      <label>Email<input name="email" type="email" required maxLength={254} autoComplete="email" /></label>
       <label>Phone / WhatsApp<input name="phone" type="tel" maxLength={40} autoComplete="tel" /></label>
       <label>Gear type<select name="gearType" defaultValue=""><option value="">Select or specify below</option><option>External spur gear</option><option>External helical gear</option><option>Spline / sprocket</option><option>Worm wheel or special form</option><option>Other / not sure</option></select></label>
       <label>Module or diametral pitch<input name="moduleOrDp" maxLength={100} placeholder="Include module / DP system" /></label>

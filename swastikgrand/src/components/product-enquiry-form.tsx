@@ -1,11 +1,13 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import { company } from "@/data/site";
 
 type ProductEnquiryFormProps = { initialMode?: string; industry?: string; productName?: string };
 
 export function ProductEnquiryForm({ initialMode = "Standard", industry = "", productName = "HSS Threading Hand Tap" }: ProductEnquiryFormProps) {
+  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [error, setError] = useState("");
   const [mode, setMode] = useState(initialMode);
@@ -51,14 +53,20 @@ export function ProductEnquiryForm({ initialMode = "Standard", industry = "", pr
         body: JSON.stringify(payload),
       });
 
+      const result = (await response.json().catch(() => null)) as { error?: string; reference?: string } | null;
       if (!response.ok) {
-        const result = (await response.json().catch(() => null)) as { error?: string } | null;
         setError(result?.error || "The enquiry could not be sent. Please try again.");
         setStatus("error");
         return;
       }
 
-      setStatus("sent");
+      if (!result?.reference) {
+        setError("The enquiry could not be confirmed. Please contact us directly.");
+        setStatus("error");
+        return;
+      }
+
+      router.push(`/enquiry-confirmation?reference=${encodeURIComponent(result.reference)}&product=${encodeURIComponent(productName)}`);
     } catch {
       setError("The enquiry could not be sent. Please try again or contact us directly.");
       setStatus("error");
