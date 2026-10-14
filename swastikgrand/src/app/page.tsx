@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ClickToLoadVideo } from "@/components/click-to-load-video";
 import { EnquiryForm } from "@/components/enquiry-form";
 import { EnquiryPrefillLink } from "@/components/enquiry-prefill-link";
+import { HomeProductFamilyCard } from "@/components/home-product-family-card";
 import { SiteShell } from "@/components/site-shell";
 import { company } from "@/data/site";
 import { productMenu, type ProductMenuItem } from "@/data/menu";
@@ -57,6 +58,26 @@ const productFamilies = [
     categories: [getProductCategory("/products/threading-dies-rolls")],
   },
 ];
+
+const productImages: Record<string, string> = {
+  "/products/hss-threading-taps/hss-hand-taps": "/images/products/hss-hand-tap.jpg",
+  "/products/hss-threading-taps/hss-hand-tap-sets": "/images/products/hss-hand-tap-set.jpg",
+  "/products/hss-threading-taps/hss-machine-taps": "/images/products/hss-machine-tap.jpg",
+  "/products/hss-threading-taps/hss-short-nut-taps": "/images/products/hss-short-nut-tap.jpg",
+  "/products/hss-threading-taps/hss-long-nut-taps": "/images/products/hss-long-nut-threading-tap.jpg",
+  "/products/hss-threading-taps/hss-spiral-point-taps": "/images/products/hss-sppt-tap.jpg",
+  "/products/hss-threading-taps/hss-acme-thread-taps": "/images/products/hss-acme-tap.jpg",
+  "/products/hss-threading-taps/hss-thread-forming-taps": "/images/products/hss-thread-forming-roll-tap.jpg",
+  "/products/hss-threading-taps/hss-helicoil-sti-taps": "/images/products/hss-heli-coil-tap.jpg",
+  "/products/hss-reamers/hss-hand-reamers": "/images/products/hss-reamers.jpg",
+  "/products/hss-reamers/hss-machine-reamers": "/images/products/hss-machine-reamer.jpg",
+  "/products/hss-tool-bits/hss-round-tool-bits": "/images/products/hss-round-tool-bit.png",
+  "/products/hss-tool-bits/hss-square-tool-bits": "/images/products/hss-square-tool-bit.jpg",
+  "/products/milling-gear-cutters/hss-end-mill-cutters": "/images/products/hss-end-mill-cutter.jpg",
+  "/products/milling-gear-cutters/hss-gear-hob-cutters": "/images/products/hss-gear-hob-cutter.jpg",
+  "/products/threading-dies-rolls/hss-round-thread-cutting-dies": "/images/products/hss-round-thread-cutting-die.jpg",
+  "/products/threading-dies-rolls/circular-thread-rolling-dies": "/images/products/circular-thread-roll.jpg",
+};
 
 const applications = [
   {
@@ -193,36 +214,19 @@ export default function Home() {
                   );
 
                   return (
-                    <article className="home-product-family" key={family.title}>
-                      <Link
-                        className="home-product-image"
-                        href={family.categories[0].href}
-                        aria-label={`Explore ${family.title}`}
-                        data-track-event="select_product"
-                        data-product-family={family.title}
-                        data-button-location="homepage-family-card"
-                      >
-                        <Image src={family.image} alt="" fill sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1100px) 45vw, 285px" />
-                      </Link>
-                      <div className="home-product-copy">
-                        <h3><Link href={family.categories[0].href} data-track-event="select_product" data-product-family={family.title} data-button-location="homepage-family-heading">{family.title}</Link></h3>
-                        <p>{family.description}</p>
-                        <ul>
-                          {products.map(({ product, category }) => (
-                            <li key={product.href}>
-                              <Link
-                                href={product.href}
-                                data-track-event="select_product"
-                                data-product-family={category}
-                                data-button-location="homepage-product-family"
-                              >
-                                {product.label} <Arrow />
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </article>
+                    <HomeProductFamilyCard
+                      key={family.title}
+                      title={family.title}
+                      description={family.description}
+                      image={family.image}
+                      categoryHref={family.categories[0].href}
+                      products={products.map(({ product, category }) => ({
+                        label: product.label,
+                        href: product.href,
+                        category,
+                        image: productImages[product.href] ?? family.image,
+                      }))}
+                    />
                   );
                 })}
               </div>
