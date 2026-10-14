@@ -81,7 +81,12 @@ h2 em { color: inherit; }
 .quality-proof { display: flex; align-items: flex-start; gap: 28px; }
 .iso-certificate-link { display: block; flex: 0 0 170px; background: #fff; box-shadow: 0 10px 25px rgba(20,35,51,.12); transition: transform .2s; }
 .iso-certificate-link:hover { transform: translateY(-4px); }
-.iso-certificate { display: block; width: 100%; height: auto; }
+.iso-certificate-link:focus-visible { outline: 3px solid #8b6c11; outline-offset: 4px; }
+.iso-certificate { display: grid; min-height: 220px; align-content: space-between; gap: 14px; padding: 18px 12px; border: 1px solid #d7dfe5; color: var(--navy); text-align: center; }
+.iso-certificate-brand { font-size: 9px; font-weight: 700; letter-spacing: .09em; }
+.iso-certificate-heading, .iso-certificate-label { color: var(--muted); font-size: 8px; font-weight: 700; letter-spacing: .08em; }
+.iso-certificate-standard { font-size: 12px; }
+.iso-certificate-standard strong { display: block; margin-top: 5px; font-size: 23px; letter-spacing: .02em; }
 .quality-proof-copy { flex: 1; min-width: 0; }
 .enquiry-section { background: var(--yellow); }
 .enquiry-grid > div:first-child > p:not(.eyebrow), .contact-list a:last-child { color: var(--navy); }

@@ -254,12 +254,22 @@ export default function Home() {
                 <p className="eyebrow">Manufacturing and quality</p>
                 <h2 id="quality-heading">Manufacturing and Quality Inspection</h2>
               </div>
-              <div className="quality-proof-copy">
-                <p>Swastik Grand Industries manufactures and supplies industrial threading and cutting tools under the SWAGIN brand from Ludhiana, Punjab. Ask our team about the process, inspection information and quality documentation relevant to your order.</p>
-                <p>The available quality-management document can be reviewed below. Confirm its scope and validity with our team for your specific requirement.</p>
-                <div className="resource-links">
-                  <a href="/swastik-grand-industries-qms.pdf" target="_blank" rel="noreferrer" data-track-event="download_certificate" data-button-location="homepage-quality">Open quality-management document (PDF) <Arrow /></a>
-                  <Link href="/about">About Swastik Grand Industries <Arrow /></Link>
+              <div className="quality-proof">
+                <a className="iso-certificate-link" href="/swastik-grand-industries-qms.pdf" target="_blank" rel="noreferrer" aria-label="View the ISO 9001:2015 quality management system certificate (PDF)" data-track-event="download_certificate" data-button-location="homepage-quality">
+                  <span className="iso-certificate" aria-hidden="true">
+                    <span className="iso-certificate-brand">SWASTIK GRAND INDUSTRIES</span>
+                    <span className="iso-certificate-heading">QUALITY MANAGEMENT SYSTEM</span>
+                    <span className="iso-certificate-standard">ISO <strong>9001:2015</strong></span>
+                    <span className="iso-certificate-label">CERTIFICATE · VIEW PDF</span>
+                  </span>
+                </a>
+                <div className="quality-proof-copy">
+                  <p>The available certificate document records ISO 9001:2015 certification for Swastik Grand Industries, including manufacturing and export of HSS cutting and threading tools.</p>
+                  <p>Open the certificate to review its stated scope and validity dates for your requirement.</p>
+                  <div className="resource-links">
+                    <a href="/swastik-grand-industries-qms.pdf" target="_blank" rel="noreferrer" data-track-event="download_certificate" data-button-location="homepage-quality">View ISO 9001:2015 certificate (PDF) <Arrow /></a>
+                    <Link href="/about">About Swastik Grand Industries <Arrow /></Link>
+                  </div>
                 </div>
               </div>
             </div>
