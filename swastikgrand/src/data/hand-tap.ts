@@ -3,9 +3,9 @@ export const handTapGallery = [
   { src: "/images/products/hss-hand-tap-gallery-02-taper.jpg", alt: "SWAGIN HSS hand tap with a six-thread taper lead", label: "Taper tap - 6-thread lead", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Thread-Hand-Tap-Taper-Tap-Rougher-6-Thread-Taper.jpg" },
   { src: "/images/products/hss-hand-tap-gallery-03-bottoming.jpg", alt: "SWAGIN HSS hand tap with a two-thread bottoming lead", label: "Bottoming tap - 2-thread lead", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Threading-Hand-Tap-Bottom-Tap-or-Bottoming-Tap-2-Thread-Taper.jpg" },
   { src: "/images/products/hss-hand-tap-gallery-04-plug.jpg", alt: "SWAGIN HSS hand tap with a four-thread plug lead", label: "Plug tap - 4-thread lead", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Threading-Hand-Tap-Plug-Tap-Intermediate-4-Thread-Taper.jpg" },
-  { src: "/images/products/hss-hand-tap-gallery-05.jpg", alt: "SWAGIN HSS threading hand tap additional product view", label: "Additional product view", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Threading-Hand-Tap-1.jpg" },
-  { src: "/images/products/hss-hand-tap-gallery-06.jpg", alt: "SWAGIN high-speed steel threading hand tap", label: "High-speed steel hand tap", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/High-Speed-Steel-Threading-Hand-Tap.jpg" },
-  { src: "/images/products/hss-hand-tap-gallery-07.jpg", alt: "SWAGIN HSS threading tap additional product view", label: "HSS threading tap", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Threading-Tap.jpg" },
+  { src: "/images/products/hss-hand-tap-gallery-05.jpg", alt: "SWAGIN HSS threading hand tap, alternate product view 1", label: "HSS threading hand tap - alternate product view 1", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Threading-Hand-Tap-1.jpg" },
+  { src: "/images/products/hss-hand-tap-gallery-06.jpg", alt: "SWAGIN HSS threading hand tap, alternate product view 2", label: "HSS threading hand tap - alternate product view 2", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/High-Speed-Steel-Threading-Hand-Tap.jpg" },
+  { src: "/images/products/hss-hand-tap-gallery-07.jpg", alt: "SWAGIN HSS threading tap, alternate product view 3", label: "HSS threading hand tap - alternate product view 3", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Threading-Tap.jpg" },
   { src: "/images/products/hss-hand-tap-gallery-08-fine-pitch.jpg", alt: "SWAGIN HSS fine-pitch thread hand tap", label: "Fine-pitch hand tap", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Fine-Pitch-Thread-Hand-Tap.jpg" },
   { src: "/images/products/hss-hand-tap-gallery-09-bsf.jpg", alt: "SWAGIN HSS BSF thread hand tap", label: "BSF thread hand tap", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/BSF-Foam-HSS-Hand-Threading-Tap.jpg" },
   { src: "/images/products/hss-hand-tap-gallery-10-coarse-pitch.jpg", alt: "SWAGIN HSS coarse-pitch thread hand tap", label: "Coarse-pitch hand tap", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/HSS-Hand-Threading-Tap-Coarse-Pitch.jpg" },
@@ -14,20 +14,22 @@ export const handTapGallery = [
   { src: "/images/products/hss-hand-tap-gallery-13-unf.jpg", alt: "SWAGIN HSS UNF thread hand tap", label: "UNF thread hand tap", width: 1600, height: 1600, sourceUrl: "https://swastikgrand.com/wp-content/uploads/2024/04/UNF-Foam-HSS-Hand-Threading-Tap.jpg" },
 ];
 
-export const handTapSpecs = [
+export const handTapSpecs: [string, string][] = [
   ["Product", "HSS Threading Hand Tap"],
   ["Brand", "SWAGIN"],
   ["Manufacturer", "Swastik Grand Industries"],
+  ["Country of origin", "India"],
   ["Material grades", "M2 (HSS), M35 (HSS-E), M42 (HSS-ECO)"],
   ["Hardness", "62–64 HRC"],
-  ["Listed size range", "6 mm to 100 mm"],
+  ["Manufacturing range", "3 mm to 100 mm, 1/8\" to 4\""],
+  ["Dimensions", "Confirm with manufacturer"],
   ["Finish", "Ground thread"],
   ["Thread forms", "60° and 55°"],
-  ["Tolerance options", "6H, 6G, 7H, Z-3, Z-4 or required gauge"],
+  ["Tolerance", "6H, 6G, 7H, Z-3, Z-4 or required gauge"],
   ["Flutes", "Straight flutes; 4-flute or 6-flute options"],
   ["Lead / chamfer", "2-thread, 4-thread or 6-thread lead"],
-  ["Coating names listed", "Golden TiN, Futura and Alcoran"],
-  ["Country of origin", "India"],
+  ["Coatings", "TiN coating"],
+  ["Applicable standards", "IS 6175 Part 2: 1992, IS 6175 Part 4: 1991 and BS 949 Part 2: 1979"],
 ];
 
 export const handTapThreadFamilies = [

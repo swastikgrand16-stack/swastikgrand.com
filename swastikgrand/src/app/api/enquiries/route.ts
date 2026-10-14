@@ -6,6 +6,7 @@ type EnquiryPayload = {
   name?: string;
   email?: string;
   country?: string;
+  deliveryLocation?: string;
   company?: string;
   phone?: string;
   requirement?: string;
@@ -16,29 +17,32 @@ type EnquiryPayload = {
   thread?: string;
   quantity?: string;
   material?: string;
+  productFamily?: string;
   website?: string;
 };
 
-const handTapRateWindowMs = 10 * 60 * 1000;
-const handTapMaxRequestsPerWindow = 5;
-const handTapRequestsByIp = new Map<string, { count: number; resetAt: number }>();
+const maxRequestBytes = 16 * 1024;
+const enquiryRateWindowMs = 10 * 60 * 1000;
+const enquiryMaxRequestsPerWindow = 5;
+// This limit is per runtime instance; multi-instance deployments need shared rate-limit storage.
+const enquiryRequestsByIp = new Map<string, { count: number; resetAt: number }>();
 
 function clean(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function isHandTapRateLimited(request: Request) {
+function isRateLimited(request: Request) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || "unknown";
   const now = Date.now();
-  const record = handTapRequestsByIp.get(ip);
+  const record = enquiryRequestsByIp.get(ip);
   if (!record || record.resetAt <= now) {
-    handTapRequestsByIp.set(ip, { count: 1, resetAt: now + handTapRateWindowMs });
+    enquiryRequestsByIp.set(ip, { count: 1, resetAt: now + enquiryRateWindowMs });
     return false;
   }
-  if (record.count >= handTapMaxRequestsPerWindow) return true;
+  if (record.count >= enquiryMaxRequestsPerWindow) return true;
   record.count += 1;
-  if (handTapRequestsByIp.size > 1000) {
-    for (const [key, value] of handTapRequestsByIp) if (value.resetAt <= now) handTapRequestsByIp.delete(key);
+  if (enquiryRequestsByIp.size > 1000) {
+    for (const [key, value] of enquiryRequestsByIp) if (value.resetAt <= now) enquiryRequestsByIp.delete(key);
   }
   return false;
 }
@@ -60,9 +64,22 @@ export async function POST(request: Request) {
 
   if (!apiKey) return NextResponse.json({ error: "Email service is not configured." }, { status: 503 });
 
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > maxRequestBytes) {
+    return NextResponse.json({ error: "The enquiry is too large. Please shorten the message and try again." }, { status: 413 });
+  }
+
   let payload: EnquiryPayload;
   try {
-    payload = await request.json();
+    const body = await request.text();
+    if (new TextEncoder().encode(body).byteLength > maxRequestBytes) {
+      return NextResponse.json({ error: "The enquiry is too large. Please shorten the message and try again." }, { status: 413 });
+    }
+    const parsed: unknown = JSON.parse(body);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return NextResponse.json({ error: "Invalid enquiry data." }, { status: 400 });
+    }
+    payload = parsed as EnquiryPayload;
   } catch {
     return NextResponse.json({ error: "Invalid enquiry data." }, { status: 400 });
   }
@@ -76,7 +93,9 @@ export async function POST(request: Request) {
   const quantity = clean(payload.quantity);
   const material = clean(payload.material);
   const industry = clean(payload.industry);
+  const productFamily = clean(payload.productFamily);
   const country = clean(payload.country);
+  const deliveryLocation = clean(payload.deliveryLocation);
   const company = clean(payload.company);
   const details = clean(payload.details);
   const rawRequirement = clean(payload.requirement);
@@ -84,37 +103,51 @@ export async function POST(request: Request) {
   const requirement = rawRequirement || [productName, thread].filter(Boolean).join(" - ") || "Tooling enquiry";
   const isHandTapEnquiry = productName === "HSS Threading Hand Tap";
 
-  if (isHandTapEnquiry && clean(payload.website)) {
+  if (clean(payload.website)) {
     return NextResponse.json({ error: "Invalid enquiry data." }, { status: 400 });
   }
-  if (isHandTapEnquiry && isHandTapRateLimited(request)) {
+  if (isRateLimited(request)) {
     return NextResponse.json({ error: "Too many enquiries. Please try again later." }, { status: 429 });
   }
-  if (isHandTapEnquiry && (!name || (!email && !phone) || !thread || !quantity)) {
-    return NextResponse.json({ error: "Name, one contact method, thread size and quantity are required." }, { status: 400 });
+  const fieldLengths: [string, number][] = [
+    [enquiryType, 32],
+    [name, 160], [email, 254], [phone, 32], [productName, 160], [productFamily, 100],
+    [thread, 160], [quantity, 100], [material, 160], [industry, 160], [country, 100], [deliveryLocation, 100],
+    [company, 160], [details, 8000], [rawRequirement, 2000],
+  ];
+  if (fieldLengths.some(([value, maxLength]) => value.length > maxLength)) {
+    return NextResponse.json({ error: "One or more enquiry fields are too long. Please shorten them and try again." }, { status: 400 });
   }
-  if (isHandTapEnquiry && email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!name || (!email && !phone)) {
+    return NextResponse.json({ error: "Enter your name and at least one valid contact method." }, { status: 400 });
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
   }
-  if (!isHandTapEnquiry && (!name || !email || !phone)) {
-    return NextResponse.json({ error: "Name, email and phone are required." }, { status: 400 });
+  if (phone && (phone.replace(/\D/g, "").length < 7 || phone.replace(/\D/g, "").length > 15)) {
+    return NextResponse.json({ error: "Enter a valid contact number, including its country code where relevant." }, { status: 400 });
+  }
+  if (isHandTapEnquiry && (!thread || !quantity)) {
+    return NextResponse.json({ error: "Thread size and quantity are required for this hand-tap enquiry." }, { status: 400 });
   }
 
   const reference = createReference();
   const fields: [string, string][] = [
     ["Reference", reference],
     productName ? ["Product", productName] : null,
+    productFamily ? ["Product family", productFamily] : null,
     ["Enquiry type", enquiryType],
     ["Name", name],
     email ? ["Email", email] : null,
     phone ? ["Phone", phone] : null,
     company ? ["Company", company] : null,
     country ? ["Country / location", country] : null,
+    deliveryLocation ? ["Delivery country / location", deliveryLocation] : null,
     industry ? ["Industry / application", industry] : null,
     thread ? ["Thread size & pitch", thread] : null,
     quantity ? ["Quantity", quantity] : null,
     material ? ["Workpiece material", material] : null,
-    rawRequirement && rawRequirement !== requirement ? ["Requirement", rawRequirement] : null,
+    rawRequirement ? ["Requirement", rawRequirement] : null,
     details ? ["Additional requirements", details] : null,
   ].filter((item): item is [string, string] => Boolean(item));
 
@@ -178,39 +211,25 @@ export async function POST(request: Request) {
     }),
   });
 
-  if (isHandTapEnquiry) {
-    let adminResponse: Response;
-    try {
-      adminResponse = await adminEmailPromise;
-    } catch {
-      console.error("Resend request failed while sending enquiry.");
-      return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
-    }
-    if (!adminResponse.ok) {
-      console.error("Resend API error while sending enquiry:", adminResponse.status);
-      return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
-    }
-    if (email) {
-      try {
-        const customerResponse = await sendCustomerEmail();
-        if (!customerResponse.ok) console.error("Resend customer confirmation error:", customerResponse.status);
-      } catch {
-        console.error("Resend customer confirmation request failed.");
-      }
-    }
-    return NextResponse.json({ ok: true, reference });
-  }
-
-  let responses: Response[];
+  let adminResponse: Response;
   try {
-    responses = await Promise.all([adminEmailPromise, sendCustomerEmail()]);
+    adminResponse = await adminEmailPromise;
   } catch {
     console.error("Resend request failed while sending enquiry.");
     return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
   }
-  if (responses.some((response) => !response.ok)) {
-    console.error("Resend API error while sending enquiry:", responses.map((response) => response.status).join(", "));
+  if (!adminResponse.ok) {
+    console.error("Resend API error while sending enquiry:", adminResponse.status);
     return NextResponse.json({ error: "The enquiry could not be sent. Please try again or contact us directly." }, { status: 502 });
+  }
+
+  if (email) {
+    try {
+      const customerResponse = await sendCustomerEmail();
+      if (!customerResponse.ok) console.error("Resend customer confirmation error:", customerResponse.status);
+    } catch {
+      console.error("Resend customer confirmation request failed.");
+    }
   }
 
   return NextResponse.json({ ok: true, reference });

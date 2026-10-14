@@ -23,7 +23,7 @@ export default async function EnquiryConfirmationPage({ searchParams }: Confirma
           <div className="shell confirmation-card">
             <p className="eyebrow">Enquiry received</p>
             <h1>Thank you.<br /><em>We&apos;ll be in touch.</em></h1>
-            <p>We sent a confirmation to your email address and notified our sales team about {productName}.</p>
+            <p>Your enquiry about {productName} was received and sent to our sales team. Swastik Grand Industries will contact you using the details provided.</p>
             <div className="confirmation-reference">
               <span>Your reference number</span>
               <strong>{enquiryReference}</strong>

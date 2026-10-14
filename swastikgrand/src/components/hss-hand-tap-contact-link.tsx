@@ -7,12 +7,6 @@ type ContactEvent = "click_call" | "click_whatsapp";
 type ButtonLocation = "hero" | "enquiry" | "sticky_contact_bar";
 type HssHandTapEvent = ContactEvent | "generate_lead" | "download_drawing";
 
-declare global {
-  interface Window {
-    gtag?: (command: "event", eventName: HssHandTapEvent, parameters: Record<string, string>) => void;
-  }
-}
-
 export function trackHssHandTapEvent(eventName: HssHandTapEvent, buttonLocation?: ButtonLocation) {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
 

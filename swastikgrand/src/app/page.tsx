@@ -1,84 +1,395 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ClickToLoadVideo } from "@/components/click-to-load-video";
 import { EnquiryForm } from "@/components/enquiry-form";
-import { HeroBannerRotator } from "@/components/hero-banner-rotator";
+import { EnquiryPrefillLink } from "@/components/enquiry-prefill-link";
 import { SiteShell } from "@/components/site-shell";
-import { categories, company, solutions } from "@/data/site";
+import { company } from "@/data/site";
+import { productMenu, type ProductMenuItem } from "@/data/menu";
 
-function Arrow() { return <span aria-hidden="true">↗</span>; }
-
-const productHrefs: Record<string, string> = {
-  "HSS Threading Hand Tap": "/products/hss-threading-taps/hss-hand-taps",
-  "HSS Hand Tap Set": "/products/hss-threading-taps/hss-hand-tap-sets",
-  "HSS Machine Tap": "/products/hss-threading-taps/hss-machine-taps",
-  "HSS Long Nut Tap": "/products/hss-threading-taps/hss-long-nut-taps",
-  "HSS SPPT Tap": "/products/hss-threading-taps/hss-spiral-point-taps",
-  "HSS Acme Tap": "/products/hss-threading-taps/hss-acme-thread-taps",
-  "HSS Cutter": "/get-a-quote?product=HSS%20Cutter",
-  "HSS Hand Reamer": "/products/hss-reamers/hss-hand-reamers",
-  "HSS Machine Reamer": "/products/hss-reamers/hss-machine-reamers",
-  "Circular Thread Roll": "/products/threading-dies-rolls/circular-thread-rolling-dies",
-  "HSS Round Tool Bit": "/products/hss-tool-bits/hss-round-tool-bits",
-  "HSS Square Tool Bit": "/products/hss-tool-bits/hss-square-tool-bits",
-  "HSS Gear Hob Cutter": "/products/milling-gear-cutters/hss-gear-hob-cutters",
-  "Thread Roll Forming Tap": "/products/hss-threading-taps/hss-thread-forming-taps",
-  "HSS Round Thread Cutting Die": "/products/threading-dies-rolls/hss-round-thread-cutting-dies",
-  "HSS Short Nut Tap": "/products/hss-threading-taps/hss-short-nut-taps",
-  "HSS End Mill Cutter": "/products/milling-gear-cutters/hss-end-mill-cutters",
-  "HSS Heli Coil Tap": "/products/hss-threading-taps/hss-helicoil-sti-taps",
+export const metadata: Metadata = {
+  title: "HSS Cutting Tools Manufacturer in India | Swastik Grand",
+  description: "Explore SWAGIN HSS taps, reamers, tool bits, dies and cutters from Swastik Grand Industries, Ludhiana. Enquire for bulk, export and custom requirements.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "HSS Cutting Tools Manufacturer in India | Swastik Grand",
+    description: "Explore SWAGIN HSS taps, reamers, tool bits, dies and cutters from Swastik Grand Industries, Ludhiana.",
+    url: "https://swastikgrand.com/",
+    siteName: "Swastik Grand Industries",
+    type: "website",
+    images: [{ url: "/images/products/hss-hand-tap.jpg", alt: "SWAGIN HSS threading hand tap" }],
+  },
 };
+
+function getProductCategory(href: string): ProductMenuItem {
+  const category = productMenu.find((item) => item.href === href);
+  if (!category) throw new Error(`Homepage product family is missing from the product menu: ${href}`);
+  return category;
+}
+
+const productFamilies = [
+  {
+    title: "Threading taps",
+    description: "Hand, machine, nut, spiral-point, ACME, thread-forming and Heli-Coil STI taps.",
+    image: "/images/products/hss-hand-tap.jpg",
+    categories: [getProductCategory("/products/hss-threading-taps")],
+  },
+  {
+    title: "Reamers",
+    description: "Hand and machine reamers for suitable prepared-hole finishing requirements.",
+    image: "/images/products/hss-reamers.jpg",
+    categories: [getProductCategory("/products/hss-reamers")],
+  },
+  {
+    title: "Tool bits and milling cutters",
+    description: "Round and square tool bits, end mills and gear hob cutters.",
+    image: "/images/products/hss-gear-hob-cutter.jpg",
+    categories: [
+      getProductCategory("/products/hss-tool-bits"),
+      getProductCategory("/products/milling-gear-cutters"),
+    ],
+  },
+  {
+    title: "Dies and thread rolling tools",
+    description: "Round cutting dies cut external threads; circular rolls form threads.",
+    image: "/images/products/circular-thread-roll.jpg",
+    categories: [getProductCategory("/products/threading-dies-rolls")],
+  },
+];
+
+const applications = [
+  {
+    title: "Tool rooms and die work",
+    image: "/images/general-engineering-workshop.jpg",
+    alt: "General engineering workshop",
+    family: "Tool bits and milling cutters",
+  },
+  {
+    title: "Fastener and thread work",
+    image: "/images/fasteners-assortment.jpg",
+    alt: "Assorted metal fasteners",
+    family: "Threading taps",
+  },
+  {
+    title: "Bicycle components",
+    image: "/images/bicycle-components.jpg",
+    alt: "Bicycle components",
+    family: "Reamers",
+  },
+  {
+    title: "Automotive components",
+    image: "/images/vehicle-maintenance.jpg",
+    alt: "Vehicle maintenance work",
+    family: "Threading taps",
+  },
+  {
+    title: "General engineering and maintenance",
+    image: "/images/general-engineering-workshop.jpg",
+    alt: "General engineering workshop",
+    family: "Threading taps",
+  },
+];
+
+const organizationStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://swastikgrand.com/#organization",
+  name: company.name,
+  url: "https://swastikgrand.com/",
+  email: company.email,
+  telephone: company.phone,
+  brand: { "@type": "Brand", name: "SWAGIN" },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "1916, Street No. 36, Janta Nagar",
+    addressLocality: "Ludhiana",
+    addressRegion: "Punjab",
+    postalCode: "141003",
+    addressCountry: "IN",
+  },
+};
+
+const websiteStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://swastikgrand.com/#website",
+  name: company.name,
+  url: "https://swastikgrand.com/",
+  publisher: { "@id": "https://swastikgrand.com/#organization" },
+};
+
+function Arrow() {
+  return <span aria-hidden="true">↗</span>;
+}
 
 export default function Home() {
   return (
-    <SiteShell><main>
-      <section className="hero" id="top">
-        <div className="shell hero-grid">
-          <div className="hero-copy">
-            <div>
-              <p className="eyebrow">Your partner in industrial precision</p>
-              <h1>Better cutting.<br />Longer life.<br /><em>Greater value.</em></h1>
-              <p className="hero-text">High-quality cutting tools and custom threading solutions that help solve real production challenges at an affordable price.</p>
-              <p className="hero-intro">From everyday workshop jobs to specialised production requirements, Swastik Grand Industries brings together HSS taps, drills and threading tools under the SWAGIN brand.</p>
-              <div className="hero-actions">
-                <a className="button button-yellow" href="#products">Explore our tools <Arrow /></a>
-                <a className="outline-link" href="#custom-taps">Need a custom solution? <Arrow /></a>
-                <a className="outline-link" href="https://www.youtube.com/watch?v=BHTs56TPKFg" target="_blank" rel="noreferrer">Watch our factory introduction <Arrow /></a>
-              </div>
-            </div>
-            <div className="hero-support">
-              <div className="hero-capabilities">
+    <>
+      <SiteShell>
+        <main className="home-main" id="top">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([organizationStructuredData, websiteStructuredData]).replace(/</g, "\\u003c"),
+            }}
+          />
+
+          <section className="hero" aria-labelledby="home-heading">
+            <div className="shell hero-grid">
+              <div className="hero-copy">
                 <div>
-                  <h3>Tools for your application</h3>
-                  <p>Hand and machine taps, drills, dies and cutting tools for your material and machining needs.</p>
+                  <p className="eyebrow">SWAGIN · Swastik Grand Industries · Ludhiana</p>
+                  <h1 id="home-heading">HSS Cutting Tools Manufacturer in India</h1>
+                  <p className="hero-text">SWAGIN threading taps and cutting tools from Swastik Grand Industries, Ludhiana.</p>
+                  <p className="hero-intro">Find HSS taps, reamers, tool bits, dies and cutters for your application. Share your material, thread specification and quantity for a standard, bulk, export or custom-tool enquiry.</p>
+                  <p className="hero-value">Long tool life. Consistent quality. Affordable pricing.</p>
+                  <div className="hero-actions">
+                    <a className="button button-yellow" href="#enquiry">Request a Quote <Arrow /></a>
+                    <a className="outline-link" href="#products">Explore Products <Arrow /></a>
+                  </div>
+                  <div className="hero-contact-actions" aria-label="Contact Swastik Grand Industries">
+                    <a href={company.phoneHref} data-track-event="click_call" data-button-location="homepage-hero">Call {company.phone}</a>
+                    <a href={company.whatsapp} target="_blank" rel="noreferrer" data-track-event="click_whatsapp" data-button-location="homepage-hero">WhatsApp <Arrow /></a>
+                  </div>
                 </div>
+              </div>
+              <div className="hero-visual">
+                <div className="home-hero-image">
+                  <Image
+                    src="/images/products/hss-hand-tap.jpg"
+                    alt="SWAGIN HSS threading hand tap"
+                    fill
+                    priority
+                    sizes="(max-width: 900px) calc(100vw - 32px), (max-width: 1304px) 45vw, 558px"
+                  />
+                </div>
+                <p className="home-hero-caption">HSS threading tools for workshop and production requirements</p>
+              </div>
+            </div>
+            <div className="shell home-trust-strip" aria-label="Company information">
+              <span><b>Location</b>Ludhiana, Punjab, India</span>
+              <span><b>Product brand</b>SWAGIN</span>
+              <span><b>Enquiries</b>Standard, bulk, export and custom</span>
+              <span><b>Quality</b>Quality document available</span>
+            </div>
+          </section>
+
+          <section className="section products" id="products" aria-labelledby="products-heading">
+            <div className="shell">
+              <div className="section-heading">
                 <div>
-                  <h3>Custom taps, made to fit</h3>
-                  <p>Discuss special thread sizes, extended lengths and requirements based on your drawing or sample.</p>
+                  <p className="eyebrow">The SWAGIN range</p>
+                  <h2 id="products-heading">Explore Our HSS Taps and Cutting Tools</h2>
+                </div>
+                <p>Browse four product families and follow the links to the relevant product information. Confirm specifications, availability and commercial terms with our team.</p>
+              </div>
+              <div className="home-product-family-grid">
+                {productFamilies.map((family) => {
+                  const products = family.categories.flatMap((category) =>
+                    (category.children || [])
+                      .filter((product) => product.href.startsWith("/products/"))
+                      .map((product) => ({ product, category: category.label })),
+                  );
+
+                  return (
+                    <article className="home-product-family" key={family.title}>
+                      <Link
+                        className="home-product-image"
+                        href={family.categories[0].href}
+                        aria-label={`Explore ${family.title}`}
+                        data-track-event="select_product"
+                        data-product-family={family.title}
+                        data-button-location="homepage-family-card"
+                      >
+                        <Image src={family.image} alt="" fill sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1100px) 45vw, 285px" />
+                      </Link>
+                      <div className="home-product-copy">
+                        <h3><Link href={family.categories[0].href} data-track-event="select_product" data-product-family={family.title} data-button-location="homepage-family-heading">{family.title}</Link></h3>
+                        <p>{family.description}</p>
+                        <ul>
+                          {products.map(({ product, category }) => (
+                            <li key={product.href}>
+                              <Link
+                                href={product.href}
+                                data-track-event="select_product"
+                                data-product-family={category}
+                                data-button-location="homepage-product-family"
+                              >
+                                {product.label} <Arrow />
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+              <Link className="under-link" href="/products">View the full product catalogue <Arrow /></Link>
+            </div>
+          </section>
+
+          <section className="custom-section home-custom-section" id="custom-taps" aria-labelledby="custom-heading">
+            <div className="custom-copy">
+              <p className="eyebrow">Custom tap manufacturing</p>
+              <h2 id="custom-heading">Custom HSS Taps Made to Your Requirement</h2>
+              <p>Share a drawing, sample reference or the thread and dimensional details you have. Our team can review the requirement and confirm feasibility and commercial terms before production.</p>
+              <EnquiryPrefillLink className="button button-yellow" enquiryType="Custom" productFamily="Threading taps" data-track-event="click_custom_enquiry" data-button-location="homepage-custom-section">Discuss a Custom Tap <Arrow /></EnquiryPrefillLink>
+            </div>
+            <div className="custom-details">
+              <p className="detail-title">How a custom enquiry proceeds</p>
+              <ol className="custom-process-list">
+                <li><b>01</b><span>Share a drawing, specification or sample reference.</span></li>
+                <li><b>02</b><span>Technical review of the requested tool and application.</span></li>
+                <li><b>03</b><span>Quotation and specification approval before production under agreed terms.</span></li>
+              </ol>
+              <p className="drawing-note">Useful details include diameter, pitch or TPI, thread standard, hand, overall and thread length, shank or square dimensions, grade, coating, tolerance and quantity. <a href={`mailto:${company.email}`}>Email drawings to {company.email} <Arrow /></a></p>
+            </div>
+          </section>
+
+          <section className="section quality" id="quality" aria-labelledby="quality-heading">
+            <div className="shell quality-grid">
+              <div>
+                <p className="eyebrow">Manufacturing and quality</p>
+                <h2 id="quality-heading">Manufacturing and Quality Inspection</h2>
+              </div>
+              <div className="quality-proof-copy">
+                <p>Swastik Grand Industries manufactures and supplies industrial threading and cutting tools under the SWAGIN brand from Ludhiana, Punjab. Ask our team about the process, inspection information and quality documentation relevant to your order.</p>
+                <p>The available quality-management document can be reviewed below. Confirm its scope and validity with our team for your specific requirement.</p>
+                <div className="resource-links">
+                  <a href="/swastik-grand-industries-qms.pdf" target="_blank" rel="noreferrer" data-track-event="download_certificate" data-button-location="homepage-quality">Open quality-management document (PDF) <Arrow /></a>
+                  <Link href="/about">About Swastik Grand Industries <Arrow /></Link>
                 </div>
               </div>
-              <div className="hero-guidance">
-                <p><strong>Let?s find the right tool for your next job.</strong>Share your material, thread size and quantity with our team.</p>
-                <a href="#enquiry" aria-label="Discuss your tooling requirements"><Arrow /></a>
+            </div>
+          </section>
+
+          <section className="video-section home-video-section" aria-labelledby="factory-video-heading">
+            <div className="shell video-grid">
+              <ClickToLoadVideo />
+              <div>
+                <p className="eyebrow">Factory introduction</p>
+                <h2 id="factory-video-heading">A closer look at SWAGIN</h2>
+                <p>Watch the Swastik Grand Industries factory introduction. The player loads only when you choose to play it.</p>
+                <a className="under-link" href="https://www.youtube.com/watch?v=BHTs56TPKFg" target="_blank" rel="noreferrer">Open on YouTube <Arrow /></a>
               </div>
             </div>
-          </div>
-          <div className="hero-visual">
-            <div className="hero-board">
-              <HeroBannerRotator />
-              <footer>ENGINEERED FOR THE JOB <strong>Precision starts with the right tool.</strong></footer>
+          </section>
+
+          <section className="section home-applications" id="applications" aria-labelledby="applications-heading">
+            <div className="shell">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">Industrial applications</p>
+                  <h2 id="applications-heading">Tools for Your Industry and Application</h2>
+                </div>
+                <p>Explore common machining and maintenance contexts. The right tool depends on the material, operation, machine and component specification.</p>
+              </div>
+              <div className="home-applications-grid">
+                {applications.map((application) => (
+                  <article className="home-application-card" key={application.title}>
+                    <div className="home-application-image">
+                      <Image src={application.image} alt={application.alt} fill sizes="(max-width: 767px) calc(100vw - 32px), (max-width: 1100px) 45vw, 285px" />
+                    </div>
+                    <h3>{application.title}</h3>
+                    <EnquiryPrefillLink enquiryType="Standard" productFamily={application.family}>
+                      Discuss an application <Arrow />
+                    </EnquiryPrefillLink>
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="shell benefits"><span><b>01</b> Quality you can rely on</span><span><b>02</b> Built for longer service</span><span><b>03</b> Made for your application</span><span><b>04</b> Direct from the manufacturer</span></div>
-      </section>
-      <section className="section products" id="products"><div className="shell"><div className="section-heading"><div><p className="eyebrow">The SWAGIN range</p><h2>The right tool.<br /><em>For every next step.</em></h2></div><p>Explore cutting and threading tools for workshop use, industrial production and specialised applications.</p></div><div className="category-grid">{categories.map((category) => <a className="category-card" href={productHrefs[category.title] || "#enquiry"} key={category.title}><div className="category-image"><Image src={category.image} alt={category.title} fill sizes="(max-width: 560px) calc(100vw - 32px), (max-width: 900px) 45vw, (max-width: 1304px) 30vw, 397px" /><span>{category.number}</span></div><div className="category-copy"><h3>{category.title}</h3><p>{category.description}</p><span className="card-arrow"><Arrow /></span></div></a>)}</div><Link className="under-link" href="/products/hss-threading-taps/hss-hand-taps">HSS Hand Taps <Arrow /></Link><Link className="under-link" href="/products">View full product catalogue <Arrow /></Link></div></section>
-      <section className="section solutions" id="solutions"><div className="shell"><div className="section-heading light"><div><p className="eyebrow">Practical problem solving</p><h2>Your challenge.<br /><em>Our starting point.</em></h2></div><p>Tell us about your material, machine and application. We will help you discuss a suitable tooling solution.</p></div><div className="solution-grid">{solutions.map(([title, text, cta], index) => <a className="solution-card" href="#enquiry" key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p><b>{cta} <Arrow /></b></a>)}</div></div></section>
-      <section className="custom-section" id="custom-taps"><div className="custom-copy"><p className="eyebrow">Custom tap manufacturing</p><h2>Your drawing.<br /><em>Our expertise.</em><br />A tool that fits.</h2><p>When standard taps do not meet your requirements, share your drawing, sample details or thread specification with Swastik Grand Industries.</p><a className="button button-yellow" href="#enquiry">Discuss your custom tap <Arrow /></a></div><div className="custom-details"><p className="detail-title">Built around your requirement</p><div className="spec-list"><span>Special thread sizes & pitches</span><span>Long shank & extended-length requirements</span><span>Material grade & coating options</span><span>Right-hand & left-hand threads</span></div><p className="drawing-note">Have a drawing or sample?<br /><a href={`mailto:${company.email}`}>Email it to {company.email} <Arrow /></a></p></div></section>
-      <section className="section about" id="about"><div className="shell about-grid"><div><p className="eyebrow">The people behind the tool</p><h2>Manufacturing tools.<br /><em>Building confidence.</em></h2></div><div><p className="large-copy">Based in Ludhiana, Punjab, Swastik Grand Industries manufactures and supplies industrial cutting and threading tools under the SWAGIN brand. Since 2016, our focus has been to understand the job, provide the right tool and deliver dependable quality at a fair price.</p><a className="under-link" href="/about">About Swastik Grand <Arrow /></a></div></div></section>
-      <section className="quality" id="resources"><div className="shell quality-grid"><div><p className="eyebrow">Quality you can evaluate</p><h2>Good tools begin<br />with clear details.</h2></div><div className="quality-proof"><a className="iso-certificate-link" href="/swastik-grand-industries-qms.pdf" target="_blank" rel="noreferrer"><Image className="iso-certificate" src="https://swastikgrand.com/wp-content/uploads/2026/03/SWASTIK-GRAND-INDUSTRIES-QMS-2-1117x1536.jpg" alt="View Swastik Grand Industries quality management certificate (PDF)" width={1117} height={1536} /></a><div className="quality-proof-copy"><p>Review our company credentials and discuss the material, dimensions, finish and inspection requirements for your tooling order.</p><div className="resource-links"><a href="/swastik-grand-industries-qms.pdf" target="_blank" rel="noreferrer">View ISO certificate (PDF) <Arrow /></a><a href="#enquiry">Request company profile <Arrow /></a><a href="#enquiry">Product catalogue <Arrow /></a></div></div></div></div></section>
-      <section className="video-section"><div className="shell video-grid"><div className="video-placeholder"><iframe className="video-embed" src="https://www.youtube.com/embed/BHTs56TPKFg" title="Swastik Grand Industries factory introduction" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen /></div><div><p className="eyebrow">See the work behind the name</p><h2>A closer look<br /><em>at SWAGIN.</em></h2><p>Meet the people and place behind Swastik Grand Industries in our factory introduction.</p><a className="under-link" href="https://www.youtube.com/watch?v=BHTs56TPKFg" target="_blank" rel="noreferrer">Watch on YouTube <Arrow /></a></div></div></section>
-      <section className="order-section"><div className="shell order-grid"><div><p className="eyebrow">For your next requirement</p><h2>Ready when<br /><em>you are.</em></h2></div><div className="order-options"><a href="#enquiry"><span>01</span><h3>Bulk enquiries</h3><p>Size-wise quantities, grade, coating and required date.</p><b>Request bulk quotation <Arrow /></b></a><a href="#enquiry"><span>02</span><h3>Export enquiries</h3><p>Destination country, quantities, documents and terms.</p><b>Discuss export requirements <Arrow /></b></a></div></div></section>
-      <section className="enquiry-section" id="enquiry"><div className="shell enquiry-grid"><div><p className="eyebrow">Let&apos;s talk tooling</p><h2>Tell us what you need to cut.<br /><em>We&apos;ll help you find the tool.</em></h2><p>Share your size, material, quantity or drawing with our team.</p><div className="contact-list"><a href={company.phoneHref}>{company.phone}</a><a href={`mailto:${company.email}`}>{company.email}</a><a href={company.whatsapp} target="_blank" rel="noreferrer">WhatsApp us <Arrow /></a></div></div><EnquiryForm /></div></section>
-    </main></SiteShell>
+          </section>
+
+          <section className="section home-reasons" aria-labelledby="reasons-heading">
+            <div className="shell">
+              <div className="section-heading">
+                <div>
+                  <p className="eyebrow">Why Swastik Grand</p>
+                  <h2 id="reasons-heading">A practical conversation about the right tool</h2>
+                </div>
+                <p>Share your operating requirements with the manufacturer and confirm product details before ordering.</p>
+              </div>
+              <div className="home-reasons-grid">
+                <article><span>01</span><h3>Specification-led discussion</h3><p>Review thread, dimensions, material and machine details with your enquiry.</p></article>
+                <article><span>02</span><h3>Custom requirement review</h3><p>Submit a drawing or sample reference for technical review and a quotation.</p></article>
+                <article><span>03</span><h3>Direct manufacturer contact</h3><p>Contact Swastik Grand Industries in Ludhiana about product and order requirements.</p></article>
+                <article><span>04</span><h3>Quality information</h3><p>Ask about the process and documentation relevant to the tooling order.</p></article>
+              </div>
+            </div>
+          </section>
+
+          <section className="order-section home-order-section" aria-labelledby="orders-heading">
+            <div className="shell order-grid">
+              <div>
+                <p className="eyebrow">Commercial enquiries</p>
+                <h2 id="orders-heading">Bulk Supply and Export Enquiries</h2>
+              </div>
+              <div className="order-options">
+                <EnquiryPrefillLink enquiryType="Bulk" productFamily="Help me select" data-button-location="homepage-bulk">
+                  <span>01</span><h3>Bulk requirements</h3><p>Share products, size-wise quantities and repeat requirements for a quotation.</p><b>Request bulk quotation <Arrow /></b>
+                </EnquiryPrefillLink>
+                <EnquiryPrefillLink enquiryType="Export" productFamily="Help me select" data-button-location="homepage-export">
+                  <span>02</span><h3>Export requirements</h3><p>Include the destination country, quantities and document or delivery requirements.</p><b>Discuss export requirements <Arrow /></b>
+                </EnquiryPrefillLink>
+              </div>
+            </div>
+          </section>
+
+          <section className="section home-faq" aria-labelledby="faq-heading">
+            <div className="shell home-faq-grid">
+              <div>
+                <p className="eyebrow">Questions before you enquire</p>
+                <h2 id="faq-heading">Frequently asked questions</h2>
+              </div>
+              <div className="home-faq-list">
+                <details>
+                  <summary>Which product families can I ask about?</summary>
+                  <p>SWAGIN product information on this site covers threading taps, reamers, tool bits, milling and gear cutters, dies and thread rolling tools.</p>
+                </details>
+                <details>
+                  <summary>What details help with a quotation?</summary>
+                  <p>Share the product family, size or drawing, material, quantity and application details you know. You can send an initial enquiry if some details are not yet available.</p>
+                </details>
+                <details>
+                  <summary>Can I request a custom tap?</summary>
+                  <p>Yes. Send the drawing, sample reference or thread details for review. Feasibility, specifications and commercial terms are confirmed after review.</p>
+                </details>
+                <details>
+                  <summary>Can you help select a grade or tool?</summary>
+                  <p>Share the workpiece material, machine, thread or hole details and operating requirements. A suitable option can be discussed after the application is reviewed.</p>
+                </details>
+                <details>
+                  <summary>How can I ask about bulk or export orders?</summary>
+                  <p>Select Bulk or Export in the enquiry form. For export requests, include the destination and any delivery or documentation needs.</p>
+                </details>
+              </div>
+            </div>
+          </section>
+
+          <section className="section enquiry-section" id="enquiry" aria-labelledby="enquiry-heading">
+            <div className="shell enquiry-grid">
+              <div>
+                <p className="eyebrow">Let&apos;s talk tooling</p>
+                <h2 id="enquiry-heading">Request a Cutting Tool Quotation</h2>
+                <p>Share the product family, size, material, quantity or drawing reference. Email or phone is enough to start an enquiry.</p>
+                <div className="contact-list">
+                  <a href={company.phoneHref} data-track-event="click_call" data-button-location="homepage-enquiry">{company.phone}</a>
+                  <a href={`mailto:${company.email}`}>{company.email}</a>
+                  <a href={company.whatsapp} target="_blank" rel="noreferrer" data-track-event="click_whatsapp" data-button-location="homepage-enquiry">WhatsApp us <Arrow /></a>
+                </div>
+              </div>
+              <EnquiryForm />
+            </div>
+          </section>
+        </main>
+        <nav className="mobile-contact-bar" aria-label="Quick contact">
+          <a href={company.phoneHref} data-track-event="click_call" data-button-location="mobile-contact-bar">Call</a>
+          <a href={company.whatsapp} target="_blank" rel="noreferrer" data-track-event="click_whatsapp" data-button-location="mobile-contact-bar">WhatsApp</a>
+          <a href="#enquiry">Get Quote</a>
+        </nav>
+      </SiteShell>
+    </>
   );
 }
