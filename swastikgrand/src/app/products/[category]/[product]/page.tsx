@@ -103,9 +103,18 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   }
   if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-taps") {
     return {
-      title: "HSS Hand Tap Manufacturer in India | Swastik Grand",
-      description: "SWAGIN HSS hand taps manufactured in Ludhiana, India. Explore M2, M35 and M42 grades. Request a quote for standard, bulk, export or custom requirements.",
+      title: "HSS Hand Taps Manufacturer & Exporter in India | SWAGIN",
+      description: "SWAGIN HSS hand taps from Ludhiana, India in M2, M35 and M42 grades, 3 mm to 100 mm. Request a quote for bulk, export or custom hand tap orders.",
       alternates: { canonical: "https://swastikgrand.com/products/hss-threading-taps/hss-hand-taps" },
+      robots: { index: true, follow: true },
+      openGraph: {
+        type: "website",
+        siteName: "Swastik Grand Industries",
+        url: "https://swastikgrand.com/products/hss-threading-taps/hss-hand-taps",
+        title: "HSS Hand Taps Manufacturer & Exporter in India | SWAGIN",
+        description: "SWAGIN HSS hand taps from Ludhiana, India in M2, M35 and M42 grades. Request a quote for bulk, export or custom orders.",
+        images: [{ url: "/images/products/hss-hand-tap-gallery-01.jpg", alt: "SWAGIN HSS hand taps" }],
+      },
     };
   }
   if (categorySlug === "hss-threading-taps" && productSlug === "hss-hand-tap-sets") {
