@@ -10,16 +10,22 @@ import { company } from "@/data/site";
 import { productMenu, type ProductMenuItem } from "@/data/menu";
 
 export const metadata: Metadata = {
-  title: "HSS Cutting Tools Manufacturer in India | Swastik Grand",
-  description: "Explore SWAGIN HSS taps, reamers, tool bits, dies and cutters from Swastik Grand Industries, Ludhiana. Enquire for bulk, export and custom requirements.",
+  title: "HSS Taps & Cutting Tools Manufacturer and Exporter in India | SWAGIN",
+  description: "SWAGIN HSS hand taps, machine taps, reamers, tool bits, dies and cutters from Ludhiana, India. Request a quote for bulk, export or custom tooling.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "HSS Cutting Tools Manufacturer in India | Swastik Grand",
-    description: "Explore SWAGIN HSS taps, reamers, tool bits, dies and cutters from Swastik Grand Industries, Ludhiana.",
+    title: "HSS Taps & Cutting Tools Manufacturer and Exporter in India | SWAGIN",
+    description: "SWAGIN HSS hand taps, machine taps, reamers, tool bits, dies and cutters from Swastik Grand Industries, Ludhiana.",
     url: "https://swastikgrand.com/",
     siteName: "Swastik Grand Industries",
     type: "website",
     images: [{ url: "/images/products/hss-hand-tap.jpg", alt: "SWAGIN HSS threading hand tap" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HSS Taps & Cutting Tools Manufacturer and Exporter in India | SWAGIN",
+    description: "SWAGIN HSS taps and cutting tools from Ludhiana, India. Request a quote for bulk, export or custom tooling.",
+    images: ["/images/products/hss-hand-tap.jpg"],
   },
 };
 
@@ -118,6 +124,7 @@ const organizationStructuredData = {
   "@id": "https://swastikgrand.com/#organization",
   name: company.name,
   url: "https://swastikgrand.com/",
+  description: "Manufacturer and exporter of SWAGIN HSS taps, reamers, tool bits, dies and cutters from Ludhiana, India.",
   email: company.email,
   telephone: company.phone,
   brand: { "@type": "Brand", name: "SWAGIN" },
@@ -161,10 +168,10 @@ export default function Home() {
               <div className="hero-copy">
                 <div>
                   <p className="eyebrow">SWAGIN · Swastik Grand Industries · Ludhiana</p>
-                  <h1 id="home-heading">HSS Cutting Tools Manufacturer in India</h1>
+                  <h1 id="home-heading">HSS Cutting Tools Manufacturer &amp; Exporter in India</h1>
                   <p className="hero-text">SWAGIN threading taps and cutting tools from Swastik Grand Industries, Ludhiana.</p>
-                  <p className="hero-intro">Find HSS taps, reamers, tool bits, dies and cutters for your application. Share your material, thread specification and quantity for a standard, bulk, export or custom-tool enquiry.</p>
-                  <p className="hero-value">Long tool life. Consistent quality. Affordable pricing.</p>
+                  <p className="hero-intro">Manufacturer and exporter of HSS taps, reamers, tool bits, dies and cutters. Start with our <Link className="under-link" href="/products/hss-threading-taps/hss-hand-taps">HSS hand taps</Link>, or share your material, thread specification and quantity for a standard, bulk, export or custom-tool enquiry.</p>
+                  <p className="hero-value">Standard, bulk, export and drawing-led custom enquiries.</p>
                   <div className="hero-actions">
                     <a className="button button-yellow" href="#enquiry">Request a Quote <Arrow /></a>
                     <a className="outline-link" href="#products">Explore Products <Arrow /></a>
@@ -203,7 +210,7 @@ export default function Home() {
                   <p className="eyebrow">The SWAGIN range</p>
                   <h2 id="products-heading">Explore Our HSS Taps and Cutting Tools</h2>
                 </div>
-                <p>Browse four product families and follow the links to the relevant product information. Confirm specifications, availability and commercial terms with our team.</p>
+                                  <p>Browse four product families, including <Link className="under-link" href="/products/hss-threading-taps/hss-hand-taps">HSS hand taps</Link> and <Link className="under-link" href="/products/hss-threading-taps/hss-machine-taps">HSS machine taps</Link>. Confirm specifications, availability and commercial terms with our team.</p>
               </div>
               <div className="home-product-family-grid">
                 {productFamilies.map((family) => {
@@ -284,7 +291,7 @@ export default function Home() {
               <ClickToLoadVideo />
               <div>
                 <p className="eyebrow">Factory introduction</p>
-                <h2 id="factory-video-heading">A closer look at SWAGIN</h2>
+                <h2 id="factory-video-heading">SWAGIN Factory Introduction: Swastik Grand Industries</h2>
                 <p>Watch the Swastik Grand Industries factory introduction. The player loads only when you choose to play it.</p>
                 <a className="under-link" href="https://www.youtube.com/watch?v=BHTs56TPKFg" target="_blank" rel="noreferrer">Open on YouTube <Arrow /></a>
               </div>
@@ -321,7 +328,7 @@ export default function Home() {
               <div className="section-heading">
                 <div>
                   <p className="eyebrow">Why Swastik Grand</p>
-                  <h2 id="reasons-heading">A practical conversation about the right tool</h2>
+                  <h2 id="reasons-heading">Why Buyers Contact SWAGIN for HSS Tools</h2>
                 </div>
                 <p>Share your operating requirements with the manufacturer and confirm product details before ordering.</p>
               </div>
