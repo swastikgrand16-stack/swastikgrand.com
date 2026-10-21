@@ -101,7 +101,7 @@ const applications = [
   {
     title: "Bicycle components",
     image: "/images/bicycle-components.jpg",
-    alt: "Bicycle components",
+    alt: "Bicycles displayed in a bicycle workshop",
     family: "Reamers",
   },
   {
