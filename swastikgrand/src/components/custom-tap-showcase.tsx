@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const banners = [
@@ -19,5 +18,5 @@ export function CustomTapShowcase() {
 
   const [title, caption, image] = banners[activeBanner];
 
-  return <section className="custom-showcase"><div className="shell custom-showcase-grid"><div className="custom-showcase-image"><Image key={image} src={image} alt={title} fill sizes="(max-width: 900px) 100vw, 58vw" priority={activeBanner === 0} /><div className="custom-showcase-label"><span>SWAGIN / PRODUCT REFERENCE</span><strong>{caption}</strong></div></div><div className="custom-showcase-copy"><p className="eyebrow">Start with what exists</p><h2>Standard tools.<br /><em>Custom thinking.</em></h2><p>See the existing SWAGIN range, then tell us where your application needs something different. Special sizes, extended lengths and drawing-based tools begin with a clear conversation.</p><div className="custom-showcase-controls" aria-label="Choose product image">{banners.map(([bannerTitle], index) => <button className={index === activeBanner ? "active" : ""} type="button" aria-label={`Show ${bannerTitle}`} aria-pressed={index === activeBanner} onClick={() => setActiveBanner(index)} key={bannerTitle}><span>0{index + 1}</span>{bannerTitle}</button>)}</div></div></div></section>;
+  return <section className="custom-showcase"><div className="shell custom-showcase-grid"><div className="custom-showcase-image"><img key={image} src={image} alt={title} fetchPriority={activeBanner === 0 ? "high" : "auto"} loading={activeBanner === 0 ? "eager" : "lazy"} decoding="async" /><div className="custom-showcase-label"><span>SWAGIN / PRODUCT REFERENCE</span><strong>{caption}</strong></div></div><div className="custom-showcase-copy"><p className="eyebrow">Start with what exists</p><h2>Standard tools.<br /><em>Custom thinking.</em></h2><p>See the existing SWAGIN range, then tell us where your application needs something different. Special sizes, extended lengths and drawing-based tools begin with a clear conversation.</p><div className="custom-showcase-controls" aria-label="Choose product image">{banners.map(([bannerTitle], index) => <button className={index === activeBanner ? "active" : ""} type="button" aria-label={`Show ${bannerTitle}`} aria-pressed={index === activeBanner} onClick={() => setActiveBanner(index)} key={bannerTitle}><span>0{index + 1}</span>{bannerTitle}</button>)}</div></div></div></section>;
 }

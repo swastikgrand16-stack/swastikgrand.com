@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
 		];
 	},
 	images: {
+		unoptimized: true,
 		remotePatterns: [
 			{ protocol: "https", hostname: "swastikgrand.com", pathname: "/wp-content/uploads/**" },
 			{ protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
